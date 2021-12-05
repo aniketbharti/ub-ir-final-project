@@ -1,0 +1,20 @@
+<mat-toolbar>
+    COVID 19 Statistics
+</mat-toolbar>
+<ng-container *ngIf="worldData">
+    <div class="cards-class">
+        <mat-card class="cards-item" *ngFor="let item of worldData | keyvalue" [style.backgroundColor]="cardHeading[item.key].color">
+            <mat-card-title class="heading"><i>{{cardHeading[item.key].title}}</i></mat-card-title>
+            <mat-card-content class="content">
+                <p>{{dataFormatter(item.value)}}</p>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</ng-container>
+
+<div class="margin-class table-class">
+    <ag-grid-angular #agGrid style="width: 100%; height: 100%" class="ag-theme-alpine" [rowData]="rowData | async"
+        [columnDefs]="columnDefs" [frameworkComponents]="frameworkComponents" rowSelection="multiple"
+        (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+</div>
