@@ -1,12 +1,6 @@
 import json
+from server.twitter.loader import Loader
 from solr import Solr
-import string
-import re
-import demoji
-# from textblob import TextBlob
-import glob
-import os
-import time
 from googletrans import Translator
 
 run_config = "../config/solr.config.json"
@@ -21,19 +15,14 @@ class Indexer:
         else:
             self.core = Solr("VSM_CORE", "./configs/config_vsm.json")
         if self.run_config["resetindexer"]:
-            self.core.replace_indexer_schema(b="0.75", k="1.2")
+            self.core.replace_indexer_schema()
         if self.run_config["uploaddata"]:
             self.load_data()
 
     def load_data(self):
-        train_data = self.read_file("data/train.json")
-        if train_data:
-            for idx, data in enumerate(train_data):
-                for k, v in data.items():
-                    if k in ["text_ru", "text_en", "text_de"]:
-                        train_data[idx][k] = self.pre_process(v)
-            self.BM25_solr.create_documents(train_data)
-            self.VSM_solr.create_documents(train_data)
+        dataloader = Loader()
+        data = dataloader.load_data()
+        self.core.create_documents(data)
 
     def read_file(self, filename):
         data = None

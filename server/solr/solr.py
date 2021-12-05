@@ -3,21 +3,20 @@ import pysolr
 import json
 import requests
 
-dir = '../BM25/'
-dir2 = '../VSM/'
-
-AWS_IP = '18.116.39.248'
-run_config = "./configs/run_config.json"
+AWS_IP = 'localhost'
 schema = "../config/solr.schema.json"
 
 class Solr:
-    def __init__(self, core_name, ir_model_schema) -> None:
+    def __init__(self, core_name, ir_model_schema, dropcreatecore) -> None:
         self.solr_url = f'http://{AWS_IP}:8983/solr/'
         self.core_name = core_name
         self.data_schema = self.read_file(schema)
         self.ir_model_schema = self.read_file(ir_model_schema)
         self.connection = pysolr.Solr(
             self.solr_url + core_name, always_commit=True, timeout=5000000)
+        self.dropcreatecore = dropcreatecore
+        self.b = "0.75"
+        self.k = "1.2"
         self.do_initial_setup()
 
     def add_fields(self):
@@ -33,19 +32,20 @@ class Solr:
         return data
 
     def do_initial_setup(self) -> None:
-        if self.run_config and self.run_config['dropcreatecore']:
+        if self.dropcreatecore:
             self.delete_core()
             self.create_core()
             self.add_fields()
 
-    def replace_indexer_schema(self, b=None, k=None) -> None:
+    def replace_indexer_schema(self) -> None:
         if self.ir_model_schema:
-            for idx, list_data in enumerate(self.ir_model_schema["replace-field-type"]):
-                similarity = list_data["similarity"]
-                if similarity and "b" in similarity:
-                    self.ir_model_schema["replace-field-type"][idx]["similarity"]["b"] = b
-                if similarity and "k1" in similarity:
-                    self.ir_model_schema["replace-field-type"][idx]["similarity"]["k1"] = k
+            if self.core_name == "BM25":
+                for idx, list_data in enumerate(self.ir_model_schema["replace-field-type"]):
+                    similarity = list_data["similarity"]
+                    if similarity and "b" in similarity:
+                        self.ir_model_schema["replace-field-type"][idx]["similarity"]["b"] = self.b
+                    if similarity and "k1" in similarity:
+                        self.ir_model_schema["replace-field-type"][idx]["similarity"]["k1"] = self.k
             req = requests.post(self.solr_url + self.core_name +
                                 "/schema", json=self.ir_model_schema)
             print("Indexer Statergy Change : " + self.core_name + " ", req)
