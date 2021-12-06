@@ -1,0 +1,195 @@
+<div id="flex-pane">
+  <div id="grid-pane">
+    <div id="article-pane">
+      <div id="NEWS">
+        <div id="DIV_5">
+          <p id="P_6">NEWS</p>
+        </div>
+        <div id="DIV_35">
+          <p id="">
+            Heading : Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Blanditiis, doloremque.
+          </p>
+        </div>
+        <div id="DIV_35">
+          <p>
+            Content : Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Ex blanditiis magnam aliquid minima molestias fugiat corporis esse,
+            non earum assumenda!
+          </p>
+        </div>
+      </div>
+   
+    </div>
+    <div id="search-pane">
+      <div id="SEARCH">
+        <div id="DIV_166">
+          <div id="DIV_167">
+            <svg id="svg_168">
+              <g id="g_169">
+                <path id="path_170"></path>
+                <path id="path_171"></path>
+              </g>
+            </svg>
+          </div>
+          <input
+            name="search tweets"
+            type="string"
+            placeholder="Search tweets"
+            id="INPUT_172"
+          />
+        </div>
+        
+       
+          <div id="DIV_165">Filter</div>
+      </div>
+      <div id="DIV_173" class="listofbuttons">
+        <div id="DIV_174">
+          <div id="DIV_175">
+            <!-- buttons list -->
+            <button id="selected">All Topics</button>
+            <button id="unselected">topic 1</button>
+            <button id="unselected">topic 2</button>
+            <button id="unselected">topic 3</button>
+          </div>
+          
+        </div>
+      </div>
+      <div class="control-section">
+        <div class="switches">
+          <mat-button-toggle-group id="view" class="e-btn-view-group">
+            <mat-button-toggle
+              [checked]="display==1"
+              value="1"
+              (change)="changeDisplay(1)"><img
+              src="../../../assets/grid.svg"
+              alt="Grid View"
+              width="20px"
+              height="20px"
+            /></mat-button-toggle>
+            <mat-button-toggle
+              [checked]="display==2"
+  
+              value="2"
+              (change)="changeDisplay(2)"><img
+              src="../../../assets/list.svg"
+              alt="List View"
+              width="20px"
+              height="20px"></mat-button-toggle>
+          </mat-button-toggle-group>
+          <mat-button-toggle-group id="sect" class="e-btn-sect-group">
+            <mat-button-toggle
+              [checked]="sect==1"
+              [ngClass]="sect==1 ? 'active':''"
+              value="1"
+              (change)="changeSect(1)">POIS</mat-button-toggle>
+            <mat-button-toggle
+              [checked]="sect==2"
+              [ngClass]="sect==2 ? 'active':''"
+              value="2"
+              (change)="changeSect(2)">PUBLIC</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        
+        <div class="row" *ngIf="display === 1;else listview">
+          <div class="meta-data">
+            <div id="GRAPH1">
+            
+              <div id="DIV_197" class="twitter logo">
+                <div id="DIV_198">
+                  <img
+                    src="../../../assets/twitter_social.svg"
+                    alt="twitter_profile"
+                    id="IMG_199"
+                  />
+                </div>
+                <div id="DIV_200">
+                  <p id="P_201">username</p>
+                  <p id="P_202">@twitter_social</p>
+                </div>
+                <div id="DIV_45">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt="" id="IMG_46" />
+                </div>
+              </div>
+              <div class="tweets">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo animi expedita deleniti, accusantium hic vel labore ducimus reprehenderit iusto, totam culpa molestias harum aliquid nihil, laboriosam id minus voluptates quas. Natus fugit fuga, dignissimos maiores quis dolorum voluptatem vitae rerum consequuntur quo sunt saepe harum odio rem eligendi blanditiis magnam libero autem alias? Modi repudiandae vitae ratione quisquam explicabo nisi laboriosam ipsa expedita corporis fuga cum doloremque aspernatur, magnam neque illo dolore suscipit in fugit asperiores quae deserunt voluptas voluptatibus! Unde vitae beatae laboriosam, maiores amet totam voluptate ducimus eveniet, dolore officia dicta maxime praesentium officiis doloribus odit pariatur delectus?
+              </div>
+              <!-- <div class=="youtube">
+                <youtube-player
+                  [videoId]="videoId"
+                  [width]="width"
+                  [height]="height"
+                  [playerVars]="playerVars"
+                  [events]="events"
+                  ></youtube-player>
+              </div> -->
+            </div>
+            <div>
+              <span>date: </span>
+              <span>score:</span>
+            
+            </div>
+          </div>
+          
+        </div>
+       
+        <ng-template #listview>
+         
+          <div id="DIV_188" class="listoftweets">
+            <div id="search-title">
+              <div id="DIV_190">Username</div>
+              <div id="DIV_191">tweets</div>
+              <div id="DIV_192">reply count</div>
+              <div id="DIV_193">% positive sentiment</div>
+            </div>
+            <!-- list of tweets -->
+            <div id="DIV_194" >
+              <!-- if no image than 1st letter of username -->
+              <a href="https://exchange.gemini.com/buy/BTC" id="A_195"></a>
+              <div id="search-result">
+                <div id="DIV_197" height= "125px" class="twitter logo">
+                  <div id="DIV_198">
+                    <img
+                      src="../../../assets/twitter_social.svg"
+                      alt="twitter_profile"
+                      id="IMG_199"
+                    />
+                  </div>
+                  <div id="DIV_200">
+                    <p id="P_201">username</p>
+                    <p id="P_202">@twitter_social</p>
+                  </div>
+                </div>
+                <div id="DIV_203">
+                  <span id="SPAN_204"
+                    >Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Ullam adipisci fuga deserunt natus minima animi nostrum
+                    delectus, in ex iste consequatur perspiciatis quibusdam
+                    laudantium nulla blanditiis facilis ratione excepturi cumque
+                    nam ipsam, facere praesentium cupiditate sed quam. Dolorem,
+                    cupiditate molestias. Dolor corrupti non, corporis quod
+                    iusto velit labore a, asperiores numquam incidunt eos
+                    dolorem quo illo rerum vero illum laboriosam recusandae quas
+                    ipsam ut vel? Recusandae autem ducimus delectus tempore sed.
+                    Nulla voluptate saepe incidunt! Distinctio et repellat
+                    voluptatibus exercitationem a modi quos fuga! Ipsam esse
+                    atque, saepe adipisci ab ut molestias necessitatibus
+                    corporis in id amet. Blanditiis, optio maxime.</span
+                  >
+                </div>
+
+                <div id="DIV_213">
+                  <span id="SPAN_204">450</span>
+                </div>
+                <div id="DIV_218">
+                  <div id="DIV_219">-0.03%</div>
+                </div>
+                <button type="button" id="BUTTON_220">View details</button>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
