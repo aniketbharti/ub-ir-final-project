@@ -1,12 +1,11 @@
 {
-    "dropcreatecore": true,
-    "resetindexer": true,
-    "uploaddata": true,
+    "dropcreatecore": false,
+    "resetindexer": false,
+    "uploaddata": false,
     "indexer": "BM25",
     "params": {
         "fl": "* score",
-        "rows": 20,
-        "defType": "dismax",
-        "qf": "text_en text_hi text_es tweet_hashtags"
+        "rows": 10000,
+        "defType": "dismax"
     }
 }
