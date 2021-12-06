@@ -56,16 +56,19 @@
       <div id="DIV_174">
         <div id="DIV_175">
           <!-- buttons list -->
-          <button id="selected">All Topics</button>
           <button
-            (click)="changeChip(i)"
-            id="if selectedChip==i ? 'selected' : 'unselected'"
+            (click)="changeChip(0, 0)"
+            [id]="selectedChip == 0 ? 'selected' : 'unselected'"
+          >
+            All Topics
+          </button>
+          <button
+            (click)="changeChip(i + 1, chip)"
+            [id]="selectedChip == i + 1 ? 'selected' : 'unselected'"
             *ngFor="let chip of chipList; let i = index"
           >
-            {{ i }}{{ chip }}
+            {{ chip }}
           </button>
-          <button id="unselected">topic 2</button>
-          <button id="unselected">topic 3</button>
         </div>
       </div>
     </div>
@@ -76,7 +79,10 @@
             <mat-card
               class="example-card"
               style="margin: 20px"
-              *ngFor="let data of searchResultPOI | slice: 0:5; let i = index"
+              *ngFor="
+                let data of showSearchResultPOI | slice: 0:5;
+                let i = index
+              "
             >
               <div>
                 <img
@@ -106,15 +112,21 @@
               <h4>Rank Score: {{ data.score }}</h4>
               <h4 class="title">Sentiment : {{ data.display[0] }}</h4>
               <h4 class="title">Avg Sentiment Score : {{ data.display[1] }}</h4>
+              <div class="sentiment">
+                <app-sentimentviewer
+                  [stackedResult]="sentimentpoiList[i]"
+                ></app-sentimentviewer>
+              </div>
             </mat-card>
           </div>
           <div class="graph">
             <div id="right-article-pane">
-              <ng-container>
+              <mat-card>
                 <app-sentimentviewer
-                  [stackedResult]="sentimentList"
+                  [stackedResult]="sentimentpoiList"
                 ></app-sentimentviewer>
-              </ng-container>
+              </mat-card>
+
               <mat-card class="word-count">
                 <mat-card-header>
                   <mat-card-title>Word Count</mat-card-title>
@@ -139,7 +151,10 @@
             <mat-card
               class="example-card"
               style="margin: 20px"
-              *ngFor="let data of searchResultNonPOI | slice: 0:5"
+              *ngFor="
+                let data of searchResultNonPOI | slice: 0:5;
+                let i = index
+              "
             >
               <h4>
                 {{ data.country }}
@@ -150,10 +165,18 @@
               <h3 class="title">{{ data.tweet_text }}</h3>
               <h4>Rank Score: {{ data.score }}</h4>
               <h4 class="title">Sentiment : {{ data.display[0] }}</h4>
-              <h4 class="title">Avg Sentiment Score : {{ data.display[1] }}</h4>
+              <div class="sentiment">
+                <app-sentimentviewer
+                  [stackedResult]="sentimentList[i]"
+                ></app-sentimentviewer>
+              </div>
             </mat-card>
           </div>
-          <div class="graph"></div>
+          <div class="graph">
+            <div class="graph">
+              <div id="right-article-pane"></div>
+            </div>
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>

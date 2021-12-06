@@ -261,6 +261,11 @@
   padding: 8px 16px;
 }/*#BUTTON_180*/
 
+.sentiment{
+  overflow: visible;
+
+}
+
 #DIV_173 {
   border-block-end-color: rgb(55, 61, 68);
   border-block-start-color: rgb(55, 61, 68);
@@ -271,7 +276,6 @@
   caret-color: rgb(55, 61, 68);
   color: rgb(55, 61, 68);
   column-rule-color: rgb(55, 61, 68);
-  height: 52px;
   inset-block-end: 0px;
   inset-block-start: 0px;
   inset-inline-end: 0px;
@@ -294,7 +298,7 @@
   caret-color: rgb(55, 61, 68);
   color: rgb(55, 61, 68);
   column-rule-color: rgb(55, 61, 68);
-  height: 52px;
+ 
   left: 0px;
   min-inline-size: 100%;
   min-width: 100%;
@@ -306,7 +310,7 @@
   border: 0px none rgb(55, 61, 68);
   font: 13px / 16px Inter, -apple-system, "system-ui", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   outline: rgb(55, 61, 68) none 0px;
-  overflow: auto;
+
 }/*#DIV_174*/
 
 
@@ -316,10 +320,11 @@
   color: rgb(55, 61, 68);
   column-gap: 8px;
   column-rule-color: rgb(55, 61, 68);
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
   grid-auto-columns: max-content;
   grid-auto-flow: column;
-  height: 52px;
+
   padding-inline-start: 2px;
   text-decoration: none solid rgb(55, 61, 68);
   text-size-adjust: 100%;
@@ -343,7 +348,6 @@
   column-rule-color: rgb(255, 255, 255);
   cursor: pointer;
   display: flex;
-  height: 36px;
 
   justify-content: center;
   left: 0px;

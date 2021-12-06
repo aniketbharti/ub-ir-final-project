@@ -7,18 +7,20 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SentimentviewerComponent {
   @Input() stackedResult: any[] = [];
-
+  view:[number,number]=[300,100]
   showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = false;
-  showLegend: boolean = true;
+  showLegend: boolean = false;
   showXAxisLabel: boolean = true;
-  yAxisLabel: string = 'Country';
+  yAxisLabel: string = 'Pois';
   showYAxisLabel: boolean = true;
-  xAxisLabel: string = 'Normalized Population';
+  xAxisLabel: string = '';
 
   constructor() {}
-
+  colorScheme = {
+    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+  };
   onSelect(event: any) {
     console.log(event);
   }

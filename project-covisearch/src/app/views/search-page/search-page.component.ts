@@ -18,9 +18,11 @@ export class SearchPageComponent implements OnInit {
   selectedChip: Number = 0;
   searchResultPOI: any[] = [];
   searchResultNonPOI: any[] = [];
-  chipList : any[]=[];
+  showSearchResultPOI :any[] = [];
+  chipList =new Set();
   wordList : any[] =['covishield' ,'covishield','vaccine' ];
-  sentimentList : any[] = [];
+  sentimentpoiList : any[] = [];
+  sentimentList:any[] =[];
   constructor(private httpService: HttpService, private activedRoute: ActivatedRoute) {
      
   }
@@ -58,11 +60,31 @@ export class SearchPageComponent implements OnInit {
           this.searchResultPOI = []
           res['response']['docs'].forEach((element: any) => {
             delete element['sentiments']['compound']
-            if( 'poi_name' in element){
+            if( element['poi_name']){
               console.log(element['poi_name'])
-              this.chipList.push(element['poi_name'])
-              this.sentimentList.push({
+              this.chipList.add(element['poi_name'])
+              this.sentimentpoiList.push([{
                 "name":element['poi_name'],
+                "series": [
+                  {
+                    "name": "Positive",
+                    "value": element['sentiments']["pos"] * 100
+                  },
+                  {
+                    "name": "Neutral",
+                    "value": element['sentiments']["neu"]* 100
+                  }, 
+                  {
+                    "name": "Negative",
+                    "value": element['sentiments']["neg"]* 100
+                  }
+                ]
+              }]);
+              console.log(this.sentimentpoiList);
+            }else{
+              console.log(this.sentimentList)
+              this.sentimentList.push([{
+                "name":'general',
                 "series": [
                   {
                     "name": "Positive",
@@ -77,7 +99,7 @@ export class SearchPageComponent implements OnInit {
                     "value": element['sentiments']["neg"]
                   }
                 ]
-              });
+              }]);
             }
             
             let data = _(element['sentiments'])
@@ -102,13 +124,13 @@ export class SearchPageComponent implements OnInit {
               this.searchResultNonPOI.push(element)
             }
           })
-
+          this.showSearchResultPOI = this.searchResultPOI
         })
         
       }
       );
 
-      console.log(this.chipList)
+      console.log(this.sentimentpoiList)
     
   }
 
@@ -120,12 +142,20 @@ export class SearchPageComponent implements OnInit {
     this.sect = mode;
   }
 
-  filterUser(mode: String):void{
-    this.searchResultPOI
+  filterUser(name: String):void{
+    this.showSearchResultPOI=this.searchResultPOI.filter((item)=>{
+      return item['poi_name'] ==name
+    })
   }
 
-  changeChip(mode:Number):void{
+  changeChip(mode:Number,value:any):void{
     this.selectedChip =mode
+    if(mode!=0){
+      this.filterUser(value)
+    }else{
+      this.showSearchResultPOI = this.searchResultPOI
+
+    }
   }
 
 }
