@@ -5,7 +5,7 @@ import json
 import requests
 
 AWS_IP = '18.116.39.248'
-schema = "../config/solr.schema.json"
+schema = "/home/ubuntu/IRProject/Project4/server/config/solr.schema.json"
 
 
 class Solr:

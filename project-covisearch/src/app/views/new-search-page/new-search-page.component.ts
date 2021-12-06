@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-search-page',
@@ -7,12 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewSearchPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  onClick(data:String) : void {
-    console.log('form submitted'  + data);
+  onClick(data: any): void {
+    this.router.navigate(['/search'], { queryParams: { query: data } });
   }
 }
