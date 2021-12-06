@@ -1,0 +1,11 @@
+{
+    "dropcreatecore": false,
+    "resetindexer": false,
+    "uploaddata": false,
+    "indexer": "BM25",
+    "params": {
+        "fl": "* score",
+        "rows": 1000,
+        "defType": "dismax"
+    }
+}

@@ -1,0 +1,39 @@
+.cards-class {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 20px;
+  .cards-item {
+    flex-basis: 20%;
+    margin: 20px;
+    height: 90px;
+    padding-left: 14px;
+    padding-right: 8px;
+    justify-content: center;
+    border-radius: 25px;
+    .heading{
+        margin-top: 5px;
+        font-size: 18px;
+        text-align: center !important;
+        color:white
+    }
+    .content{
+        margin-top: 20px;
+        font-size: 35px;
+        text-align: center;
+        color:white
+    }
+  }
+}
+
+.header {
+  background-color: red;
+}
+.margin-class {
+  margin: 20px;
+}
+.table-class {
+  width: 97vw;
+  height: 80vh;
+}
