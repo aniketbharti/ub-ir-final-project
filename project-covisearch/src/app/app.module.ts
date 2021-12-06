@@ -16,12 +16,14 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { PiechartComponent } from './components/piechart/piechart.component';
 import { BargraphComponent } from './components/bargraph/bargraph.component';
 import { GraphDataConverterService } from './services/graph.data.converter.service';
+import { SearchPageComponent } from './views/search-page/search-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewSearchPageComponent,
     NavigationHeaderComponent,
+    SearchPageComponent,
     StatsPageComponent,
     FlagRenderer,
     DisplaySummaryComponent,

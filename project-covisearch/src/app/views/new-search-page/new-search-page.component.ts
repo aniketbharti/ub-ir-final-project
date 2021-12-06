@@ -12,4 +12,7 @@ export class NewSearchPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onClick(data:String) : void {
+    console.log('form submitted'  + data);
+  }
 }
