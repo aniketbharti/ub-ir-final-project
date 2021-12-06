@@ -1,24 +1,20 @@
 <div id="flex-pane">
   <div id="grid-pane">
     <div id="article-pane">
-      <div id="NEWS">
-        <div id="DIV_5">
-          <p id="P_6">NEWS</p>
-        </div>
-        <div id="DIV_35">
-          <p id="">
-            Heading : Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Blanditiis, doloremque.
-          </p>
-        </div>
-        <div id="DIV_35">
+      <mat-card class="example-card" style="margin:20px" *ngFor="let data of newList">
+        <mat-card-header>
+          <mat-card-title>{{data.title}}</mat-card-title>
+          <mat-card-subtitle>{{data.media}} {{data.date}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
           <p>
-            Content : Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Ex blanditiis magnam aliquid minima molestias fugiat corporis esse,
-            non earum assumenda!
+            {{data.desc}}
           </p>
-        </div>
-      </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button [href]="data.link">View</a>
+        </mat-card-actions>
+      </mat-card>
     </div>
     <div id="search-pane">
       <div id="SEARCH">

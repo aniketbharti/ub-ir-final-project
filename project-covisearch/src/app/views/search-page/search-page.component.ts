@@ -25,8 +25,9 @@ export class SearchPageComponent implements OnInit {
     this.activedRoute.queryParams
       .subscribe(params => {
         this.query = params['query']
+        console.log(this.query)
         this.httpService.postMethod(environment.news, { query: this.query }).subscribe((res) => {
-          this.newList = res
+          this.newList = res['response']
           console.log(this.newList)
         })
         this.httpService.postMethod(environment.search, { query: this.query }).subscribe((res) => {
