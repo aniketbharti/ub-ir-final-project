@@ -18,6 +18,8 @@ import { BargraphComponent } from './components/bargraph/bargraph.component';
 import { GraphDataConverterService } from './services/graph.data.converter.service';
 import { SearchPageComponent } from './views/search-page/search-page.component';
 
+
+import {SentimentviewerComponent} from './components/sentimentviewer/sentimentviewer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,8 @@ import { SearchPageComponent } from './views/search-page/search-page.component';
     FlagRenderer,
     DisplaySummaryComponent,
     PiechartComponent,
-    BargraphComponent
+    BargraphComponent,
+    SentimentviewerComponent,
   ],
   imports: [
     BrowserModule,

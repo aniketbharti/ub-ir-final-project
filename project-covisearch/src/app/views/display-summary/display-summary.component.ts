@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GraphDataConverterService } from 'src/app/services/graph.data.converter.service';
 import { HttpService } from 'src/app/services/http.service';
 import { environment } from 'src/environments/environment';
-
+import {multi} from '../../components/data';
 @Component({
   selector: 'app-display-summary',
   templateUrl: './display-summary.component.html',
@@ -10,11 +10,14 @@ import { environment } from 'src/environments/environment';
 })
 export class DisplaySummaryComponent implements OnInit {
   res: any | null = null;
+  stackedResult: any[] =[];
   chartResult: any[] = [];
-  barResult: any[] = []
+  barResult: any[] = [];
   constructor(private httpService: HttpService, private graphdata: GraphDataConverterService) { }
 
   ngOnInit(): void {
+
+    this.stackedResult = multi;
     this.httpService.postMethod(environment.countrytweet, {}).subscribe((res) => {
       this.res = res
       this.chartResult = this.graphdata.convertToChart("country", res['response'])

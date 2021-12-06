@@ -16,6 +16,7 @@ export class SearchPageComponent implements OnInit {
   newList: any[] = [];
   searchResultPOI: any[] = [];
   searchResultNonPOI: any[] = [];
+  wordList : any[] =['covishield' ,'covishield','vaccine' ];
 
   constructor(private httpService: HttpService, private activedRoute: ActivatedRoute) {
 
@@ -28,7 +29,7 @@ export class SearchPageComponent implements OnInit {
         console.log(this.query)
         this.httpService.postMethod(environment.news, { query: this.query }).subscribe((res) => {
           this.newList = res['response']
-          console.log(this.newList)
+          console.log(this.query+this.newList)
         })
         this.httpService.postMethod(environment.search, { query: this.query }).subscribe((res) => {
           this.searchResultNonPOI = []
@@ -41,7 +42,9 @@ export class SearchPageComponent implements OnInit {
               this.searchResultNonPOI.push(element)
             }
           })
+
         })
+        console.log(this.searchResultNonPOI)
       }
       );
   }
