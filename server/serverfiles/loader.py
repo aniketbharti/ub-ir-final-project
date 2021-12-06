@@ -18,5 +18,6 @@ class Loader:
     def file_read_write(self, path):
         data = None
         with open(path, "rb") as output_file:
-            data = pickle.load(output_file)
+            data = pickle.load(
+                output_file, fix_imports=True, encoding="latin1")
         return data

@@ -1,4 +1,5 @@
 import os
+from flask import config
 import pysolr
 import json
 import requests
@@ -22,7 +23,10 @@ class Solr:
         self.do_initial_setup()
 
     def search(self, query, lang_boast):
-        self.params_config["pf"] = lang_boast
+        print(query)
+        if lang_boast:
+            self.params_config["qf"] = lang_boast["qf"]
+            self.params_config["pf"] = lang_boast["pf"]
         return self.connection.search(query, **self.params_config)
 
     def add_fields(self):
