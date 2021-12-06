@@ -7,6 +7,6 @@
         "fl": "* score",
         "rows": 20,
         "defType": "dismax",
-        "qf": "text_en text_de text_ru tweet_hashtags"
+        "qf": "text_en text_hi text_es tweet_hashtags"
     }
 }

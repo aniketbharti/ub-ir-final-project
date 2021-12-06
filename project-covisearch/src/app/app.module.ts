@@ -11,16 +11,22 @@ import { HttpService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AgGridModule } from 'ag-grid-angular';
 import { FlagRenderer } from './components/flag-renderer';
+import { SearchPageComponent} from './views/search-page/search-page.component';
+import {
+  CommonModule
+} from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewSearchPageComponent,
     NavigationHeaderComponent,
+    SearchPageComponent,
     StatsPageComponent,
     FlagRenderer
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
