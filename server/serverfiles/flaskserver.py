@@ -2,9 +2,16 @@ from flask import Flask, request, jsonify
 from indexer import indexer
 from googletrans import Translator
 import re
-
+from news import News
+# from sentimentanalysis import SentimentAnalysis
+from flask_cors import CORS
+from nltk.sentiment import SentimentIntensityAnalyzer
 app = Flask(__name__)
+cors = CORS(app)
+
 translator = Translator()
+# sentimentanlysis = SentimentAnalysis()
+newsdata = News()
 
 pois_list = [
     'alefrausto',
@@ -82,40 +89,85 @@ pois_list = [
 ]
 
 
-@app.route('/search', methods=['POST'])
+@app.route('/api/search', methods=['POST'])
 def search_query():
     query = request.json['query']
     result = query_processing(query)
+    for idx, i in enumerate(result["docs"]):
+        if 'text_en' in i and i["text_en"]:
+            data = i["text_en"]
+        elif 'text_hi' in i and i["text_hi"]:
+            data = i["text_hi"]
+        elif 'text_es' in i and i["text_es"]:
+            data = i["text_es"]
+        result["docs"][idx]['sentiments'] = analyze_sentiment(data)
     return jsonify({'response': result})
 
 
-@app.route('/pois', methods=['POST'])
+@app.route('/api/analyze', methods=["POST"])
+def analyze_tweets():
+    query_text = request.json['text']
+    result = analyze_sentiment(query_text)
+    return jsonify({'response': result})
+
+
+def analyze_sentiment(text):
+    sia = SentimentIntensityAnalyzer()
+    return sia.polarity_scores(text)
+
+
+@app.route('/api/pois', methods=['POST'])
 def search_pois():
-    queries = "poi_name : ("
+    result = []
     for idx, i in enumerate(pois_list):
-        queries = queries + ' ' + i
-        if (idx != len(pois_list) - 1):
-            queries = queries + ' or '
-    queries = queries + ' ) '
-    result = indexer.search(queries, {
-        "qf": "poi_name^3",
-        "pf": "poi_name^3"
-    })
+        queries = "poi_name : " + i
+        res = indexer.search(queries, {
+            "qf": "poi_name^3",
+            "pf": "poi_name^3"
+        })
+        result.extend(res["docs"])
+    for idx, i in enumerate(result):
+        if 'text_en' in i and i["text_en"]:
+            data = i["text_en"]
+        elif 'text_hi' in i and i["text_hi"]:
+            data = i["text_hi"]
+        elif 'text_es' in i and i["text_es"]:
+            data = i["text_es"]
+        result[idx]["sentiments"] = analyze_sentiment(data)
     return jsonify({'response': result})
 
-@app.route('/country', methods=['POST'])
+
+@app.route('/api/getnews', methods=['POST'])
+def getnews():
+    query = request.json['query']
+    news = newsdata.get_new(query)
+    for idx, i in enumerate(news):
+        news[idx]["sentiments"] = analyze_sentiment(i['desc'])
+    return jsonify({"response": news})
+
+
+@app.route('/api/country', methods=['POST'])
 def search_country():
-    queries = "country : ("
+    result = []
     country = ["India", "USA", "Mexico"]
     for idx, i in enumerate(country):
-        queries = queries + ' ' + i
-        if (idx != len(country) - 1):
-            queries = queries + ' or '
-    queries = queries + ' ) '
-    result = indexer.search(queries, {
-        "qf": "country^3",
-        "pf": "country^3"
-    })
+        queries = "country : " + i
+        res = indexer.search(queries, {
+            "qf": "country^3",
+            "pf": "country^3",
+            "rows": 10000
+        })
+        result.extend(res['docs'])
+
+    for idx, i in enumerate(result):
+        if 'text_en' in i and i["text_en"]:
+            data = i["text_en"]
+        elif 'text_hi' in i and i["text_hi"]:
+            data = i["text_hi"]
+        elif 'text_es' in i and i["text_es"]:
+            data = i["text_es"]
+        result[idx]["sentiments"] = analyze_sentiment(data)
+
     return jsonify({'response': result})
 
 
