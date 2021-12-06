@@ -89,6 +89,8 @@ def search_query():
     return jsonify({'response': result})
 
 
+
+
 @app.route('/pois', methods=['POST'])
 def search_pois():
     queries = "poi_name : ("
