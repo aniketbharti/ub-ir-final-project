@@ -11,6 +11,11 @@ import { HttpService } from './services/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AgGridModule } from 'ag-grid-angular';
 import { FlagRenderer } from './components/flag-renderer';
+import { DisplaySummaryComponent } from './views/display-summary/display-summary.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { PiechartComponent } from './components/piechart/piechart.component';
+import { BargraphComponent } from './components/bargraph/bargraph.component';
+import { GraphDataConverterService } from './services/graph.data.converter.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +23,10 @@ import { FlagRenderer } from './components/flag-renderer';
     NewSearchPageComponent,
     NavigationHeaderComponent,
     StatsPageComponent,
-    FlagRenderer
+    FlagRenderer,
+    DisplaySummaryComponent,
+    PiechartComponent,
+    BargraphComponent
   ],
   imports: [
     BrowserModule,
@@ -26,9 +34,10 @@ import { FlagRenderer } from './components/flag-renderer';
     BrowserAnimationsModule,
     AppMaterialModule,
     HttpClientModule,
-    AgGridModule.withComponents([FlagRenderer])
+    AgGridModule.withComponents([FlagRenderer]),
+    NgxChartsModule
   ],
-  providers: [HttpService],
+  providers: [HttpService, GraphDataConverterService],
   bootstrap: [AppComponent]
 })
 

@@ -1,0 +1,10 @@
+<div class="center-class">
+    <ng-container *ngIf="chartResult.length > 0">
+        <h3><i>Total Number of Tweets Vs Country</i></h3>
+        <app-piechart [chartResult]="chartResult"></app-piechart>
+    </ng-container>
+    <ng-container *ngIf="barResult.length > 0">
+        <h3><i>Pois Vs No of Tweets</i></h3>
+        <app-bargraph [barResult]="barResult"></app-bargraph>
+    </ng-container>
+</div>

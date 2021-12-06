@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,6 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HttpService {
+
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
 
   constructor(private http: HttpClient) { }
 
@@ -17,18 +23,18 @@ export class HttpService {
   }
 
   postMethod(url: string, body: Object): Observable<any> {
-    return this.http.post(url, body)
+    return this.http.post(url, JSON.stringify(body), this.httpOptions)
   }
 
   putMethod(url: string, body: Object): Observable<any> {
-    return this.http.put(url, body)
+    return this.http.put(url, JSON.stringify(body), this.httpOptions)
   }
 
   patchMethod(url: string, body: Object): Observable<any> {
-    return this.http.patch(url, body)
+    return this.http.patch(url, JSON.stringify(body), this.httpOptions)
   }
 
-  deleteMethod(url: string, body: Object): Observable<any> {
-    return this.http.delete(url, body)
+  deleteMethod(url: string): Observable<any> {
+    return this.http.delete(url, this.httpOptions)
   }
 }
