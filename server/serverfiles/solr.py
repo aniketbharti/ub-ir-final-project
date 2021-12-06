@@ -3,11 +3,12 @@ import pysolr
 import json
 import requests
 
-AWS_IP = 'localhost'
+AWS_IP = '18.116.39.248'
 schema = "../config/solr.schema.json"
 
+
 class Solr:
-    def __init__(self, core_name, ir_model_schema, dropcreatecore) -> None:
+    def __init__(self, core_name, ir_model_schema, dropcreatecore, params_config) -> None:
         self.solr_url = f'http://{AWS_IP}:8983/solr/'
         self.core_name = core_name
         self.data_schema = self.read_file(schema)
@@ -17,7 +18,12 @@ class Solr:
         self.dropcreatecore = dropcreatecore
         self.b = "0.75"
         self.k = "1.2"
+        self.params_config = params_config
         self.do_initial_setup()
+
+    def search(self, query, lang_boast):
+        self.params_config["pf"] = lang_boast
+        return self.connection.search(query, **self.params_config)
 
     def add_fields(self):
         if self.data_schema:
@@ -61,7 +67,9 @@ class Solr:
 
     def delete_core(self) -> None:
         print(os.system(
-            'sudo su - solr -c "/opt/solr/bin/solr delete -c {core}"'.format(core=self.core_name)))
+            'sudo su - solr -c "/opt/solr/bin/solr delete -c {core}"'.format(core="VSM_CORE")))
+        print(os.system(
+            'sudo su - solr -c "/opt/solr/bin/solr delete -c {core}"'.format(core="BM25_CORE")))
 
     def move_synomyns_file(self) -> None:
         if self.core_name == "VSM_CORE":

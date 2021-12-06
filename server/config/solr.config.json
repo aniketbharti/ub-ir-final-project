@@ -1,7 +1,7 @@
 {
-    "dropcreatecore": true,
-    "resetindexer": true,
-    "uploaddata": true,
+    "dropcreatecore": false,
+    "resetindexer": false,
+    "uploaddata": false,
     "indexer": "BM25",
     "params": {
         "fl": "* score",

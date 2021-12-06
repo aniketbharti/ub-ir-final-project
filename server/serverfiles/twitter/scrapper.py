@@ -12,9 +12,9 @@ is_reply_collect_require = False
 class Scrapper:
     def __init__(self) -> None:
         devconfig_details = Scrapper.read_write_json(
-            "read", '/Users/omnamhashivaya/Drive Data/Buffalo MS/College Project/IR Projects/Project 4/server/config/twitter.dev.json', None)
+            "read", '../config/twitter.dev.json', None)
         self.config = Scrapper.read_write_json(
-            "read", "/Users/omnamhashivaya/Drive Data/Buffalo MS/College Project/IR Projects/Project 4/server/config/scrapper.config.json", None)
+            "read", "../config/scrapper.config.json", None)
         self.twitter = TwitterAPI(devconfig_details['consumer_key'], devconfig_details['consumer_secret'],
                                   devconfig_details['access_token'], devconfig_details['access_token_secret'])
 
@@ -81,21 +81,21 @@ class Scrapper:
                     self.config["pois"][idx]["replies_id_list"] = list(
                         set(replies_id_list))
                     Scrapper.read_write_json(
-                        'write', './config/scrapper.config.json', self.config)
+                        'write', '../config/scrapper.config.json', self.config)
                     Scrapper.read_write_json(
-                        'write', './data/raw/pois_' + screen_name + '.json', unprocessed_tweet)
+                        'write', '../data/raw/pois_' + screen_name + '.json', unprocessed_tweet)
                     Scrapper.read_write_json(
-                        'write', './data/json/pois_' + screen_name + '.json', processed_tweet)
+                        'write', '../data/json/pois_' + screen_name + '.json', processed_tweet)
                     Scrapper.file_read_write(
-                        './data/pickle/pois_' + screen_name + '.pkl', 'wb', processed_tweet)
+                        '../data/pickle/pois_' + screen_name + '.pkl', 'wb', processed_tweet)
 
                     if is_reply_collect_require:
                         Scrapper.read_write_json(
-                            'write', './data/raw/reply_' + screen_name + '.json', unprocessed_reply)
+                            'write', '../data/raw/reply_' + screen_name + '.json', unprocessed_reply)
                         Scrapper.read_write_json(
-                            'write', './data/json/reply_' + screen_name + '.json', processed_reply)
+                            'write', '../data/json/reply_' + screen_name + '.json', processed_reply)
                         Scrapper.file_read_write(
-                            './data/pickle/reply_' + screen_name + '.pkl', 'wb', processed_reply)
+                            '../data/pickle/reply_' + screen_name + '.pkl', 'wb', processed_reply)
 
                     print("-------poi ended-------->")
                     time.sleep(5)
@@ -122,13 +122,13 @@ class Scrapper:
                         unprocessed_tweet.append(tweet)
 
                     Scrapper.read_write_json(
-                        'write', './config/scrapper.config.json', self.config)
+                        'write', '../config/scrapper.config.json', self.config)
                     Scrapper.read_write_json(
-                        'write', './data/raw/keywords_' + name + '.json', unprocessed_tweet)
+                        'write', '../data/raw/keywords_' + name + '.json', unprocessed_tweet)
                     Scrapper.read_write_json(
-                        'write', './data/json/keywords_' + name + '.json', processed_tweet)
+                        'write', '../data/json/keywords_' + name + '.json', processed_tweet)
                     Scrapper.file_read_write(
-                        './data/pickle/keywords_' + name + '.pkl', 'wb', processed_tweet)
+                        '../data/pickle/keywords_' + name + '.pkl', 'wb', processed_tweet)
                     print("-------poi ended-------->")
                     time.sleep(5)
 

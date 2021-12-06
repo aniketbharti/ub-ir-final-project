@@ -11,7 +11,7 @@ class TWPreprocessor:
     @staticmethod
     def read_solr_fields_config():
         data = None
-        with open("/Users/omnamhashivaya/Drive Data/Buffalo MS/College Project/IR Projects/Project 4/server/config/twitter.solor.mapping.json") as json_file:
+        with open("../config/twitter.solor.mapping.json") as json_file:
             data = json.load(json_file)
         return data
 
