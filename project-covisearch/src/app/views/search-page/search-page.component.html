@@ -1,4 +1,7 @@
-<div class="parent">
+<div class="global" *ngIf="state == true">
+  <app-loader></app-loader>
+</div>
+<div class="parent" *ngIf="state != true">
   <div class="news">
     <ng-container *ngIf="newList.length == 0">
       <mat-card class="example-card">
@@ -16,8 +19,8 @@
         <mat-card-content>
           {{data.desc}}
           Average Sentiment Analysis : {{data.desc}}<br>
-          Sentiment : {{data.display[0]}}<br>
-          Avg Sentiment Score : {{data.display[1]}}<br>
+          Sentiment : {{data.sentimentstring}}<br>
+          Avg Sentiment Score : {{data.sentimentvalue}}<br>
         </mat-card-content>
         <a mat-button [href]="data.link" class="float: right">View</a>
       </mat-card>
@@ -36,14 +39,16 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt=""
                   height="20px" width="20px" style="float: right;" />
               </div>
-              <h4 style="margin-top: 10px;">{{data.country}} <span style="float: right;">{{data.tweet_date | date :'short'}}</span> </h4>
+              <h4 style="margin-top: 10px;">{{data.country}} <span style="float: right;">{{data.tweet_date | date
+                  :'short'}}</span> </h4>
               <h3 class="title">{{data.tweet_text}}</h3>
               <h4>Rank Score: {{data.score}}</h4>
-              <h4 class="title">Sentiment : {{data.display[0]}}</h4>
-              <h4 class="title">Avg Sentiment Score : {{data.display[1]}}</h4>
+              <h4 class="title">Sentiment : {{data.sentimentstring}}</h4>
+              <h4 class="title">Avg Sentiment Score : {{data.sentimentvalue}}</h4>
             </mat-card>
           </div>
-          <div class="graph">
+          <div class="graph" *ngIf="poisGraph.length > 0 ">
+            <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
           </div>
         </div>
       </mat-tab>
@@ -54,8 +59,8 @@
               <h4>{{data.country}} <span style="float: right;">{{data.tweet_date | date :'short'}}</span> </h4>
               <h3 class="title">{{data.tweet_text}}</h3>
               <h4>Rank Score: {{data.score}}</h4>
-              <h4 class="title">Sentiment : {{data.display[0]}}</h4>
-              <h4 class="title">Avg Sentiment Score : {{data.display[1]}}</h4>
+              <h4 class="title">Sentiment : {{data.sentimentstring}}</h4>
+              <h4 class="title">Avg Sentiment Score : {{data.sentimentvalue}}</h4>
             </mat-card>
           </div>
           <div class="graph">

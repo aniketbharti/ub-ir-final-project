@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin } from 'rxjs';
 import { GraphDataConverterService } from 'src/app/services/graph.data.converter.service';
 import { HttpService } from 'src/app/services/http.service';
+import { LoaderService } from 'src/app/services/loader.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,18 +14,19 @@ export class DisplaySummaryComponent implements OnInit {
   res: any | null = null;
   chartResult: any[] = [];
   barResult: any[] = []
-  constructor(private httpService: HttpService, private graphdata: GraphDataConverterService) { }
+  state: boolean = true;
+  constructor(private httpService: HttpService, private graphdata: GraphDataConverterService, private loaderService: LoaderService) { }
 
   ngOnInit(): void {
-    this.httpService.postMethod(environment.countrytweet, {}).subscribe((res) => {
-      this.res = res
-      this.chartResult = this.graphdata.convertToChart("country", res['response'])
-      console.log(this.chartResult)
+    this.loaderService.loaderListener().subscribe((res: any) => {
+      this.state = res.state
     })
-    this.httpService.postMethod(environment.pois, {}).subscribe((res) => {
-      this.res = res
-      this.barResult = this.graphdata.convertToChart("poi_name", res['response'])
-      console.log(this.barResult)
+    let country = this.httpService.postMethod(environment.countrytweet, {})
+    let pois = this.httpService.postMethod(environment.pois, {})
+    forkJoin([country, pois]).subscribe((res) => {
+      this.chartResult = this.graphdata.convertToChart("country", res[0]['response'])
+      this.barResult = this.graphdata.convertToChart("poi_name", res[1]['response'])
+      this.loaderService.changeLoaderState({ state: false, location: 'local' })
     })
   }
 

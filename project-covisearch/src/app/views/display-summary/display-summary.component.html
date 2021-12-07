@@ -1,7 +1,10 @@
 <mat-toolbar>
     Statistics
 </mat-toolbar>
-<div class="center-class">
+<div class="global" *ngIf="state == true">
+    <app-loader></app-loader>
+</div>
+<div class="center-class" *ngIf="state != true">
     <ng-container *ngIf="chartResult.length > 0">
         <h3><i>Total Number of Tweets Vs Country</i></h3>
         <app-piechart [chartResult]="chartResult"></app-piechart>

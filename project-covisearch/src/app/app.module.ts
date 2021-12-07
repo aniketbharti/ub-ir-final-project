@@ -17,6 +17,9 @@ import { PiechartComponent } from './components/piechart/piechart.component';
 import { BargraphComponent } from './components/bargraph/bargraph.component';
 import { GraphDataConverterService } from './services/graph.data.converter.service';
 import { SearchPageComponent } from './views/search-page/search-page.component';
+import { LoaderService } from './services/loader.service';
+import { LoaderComponent } from './components/loader/loader.component';
+import { VerticalStackGraphComponent } from './components/vertical-stack-graph/vertical-stack-graph.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { SearchPageComponent } from './views/search-page/search-page.component';
     FlagRenderer,
     DisplaySummaryComponent,
     PiechartComponent,
-    BargraphComponent
+    BargraphComponent,
+    LoaderComponent,
+    VerticalStackGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +44,7 @@ import { SearchPageComponent } from './views/search-page/search-page.component';
     AgGridModule.withComponents([FlagRenderer]),
     NgxChartsModule
   ],
-  providers: [HttpService, GraphDataConverterService],
+  providers: [HttpService, GraphDataConverterService, LoaderService],
   bootstrap: [AppComponent]
 })
 
