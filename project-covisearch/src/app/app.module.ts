@@ -20,6 +20,7 @@ import { SearchPageComponent } from './views/search-page/search-page.component';
 import { LoaderService } from './services/loader.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { VerticalStackGraphComponent } from './components/vertical-stack-graph/vertical-stack-graph.component';
+import { SentimentviewerComponent } from './components/sentimentviewer/sentimentviewer.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { VerticalStackGraphComponent } from './components/vertical-stack-graph/v
     PiechartComponent,
     BargraphComponent,
     LoaderComponent,
-    VerticalStackGraphComponent
+    VerticalStackGraphComponent,
+    SentimentviewerComponent
   ],
   imports: [
     BrowserModule,

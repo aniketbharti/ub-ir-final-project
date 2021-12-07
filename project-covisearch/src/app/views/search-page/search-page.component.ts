@@ -18,13 +18,19 @@ export class SearchPageComponent implements OnInit {
   public sect: Number = 1;
   query: any
   newList: any[] = [];
+  selectedChip: Number = 0;
   searchResultPOI: any[] = [];
   searchResultNonPOI: any[] = [];
   state: boolean = false;
   poisGraph: any[] = [];
 
-  constructor(private httpService: HttpService, private activedRoute: ActivatedRoute, private loaderService: LoaderService, private graphConverter: GraphDataConverterService) {
+  showSearchResultPOI: any[] = [];
+  chipList = new Set();
+  wordList: any[] = ['covishield', 'covishield', 'vaccine'];
+  sentimentpoiList: any[] = [];
+  sentimentList: any[] = [];
 
+  constructor(private httpService: HttpService, private activedRoute: ActivatedRoute, private loaderService: LoaderService, private graphConverter: GraphDataConverterService) {
   }
 
   ngOnInit(): void {
@@ -44,14 +50,49 @@ export class SearchPageComponent implements OnInit {
           let data = this.manipulateDisplaySentiment(res[1]['response']['docs'])
           data.forEach((element) => {
             if ('poi_name' in element) {
+              this.chipList.add(element['poi_name'])
+              element["sentimentgraph"] = [{
+                "name": element['poi_name'],
+                "series": [
+                  {
+                    "name": "Positive",
+                    "value": element['sentiments']["pos"] * 100
+                  },
+                  {
+                    "name": "Neutral",
+                    "value": element['sentiments']["neu"] * 100
+                  },
+                  {
+                    "name": "Negative",
+                    "value": element['sentiments']["neg"] * 100
+                  }
+                ]
+              }]
               this.searchResultPOI.push(element)
+              this.showSearchResultPOI = this.searchResultPOI
             }
             else {
+              element["sentimentgraph"] = [{
+                "name": "User",
+                "series": [
+                  {
+                    "name": "Positive",
+                    "value": element['sentiments']["pos"] * 100
+                  },
+                  {
+                    "name": "Neutral",
+                    "value": element['sentiments']["neu"] * 100
+                  },
+                  {
+                    "name": "Negative",
+                    "value": element['sentiments']["neg"] * 100
+                  }
+                ]
+              }]
               this.searchResultNonPOI.push(element)
             }
           })
           this.poisGraph = this.graphConverter.convertToBarGraph("sentimentstring", this.searchResultPOI, false, "poi_name")
-          console.log(this.poisGraph)
         })
       }
       );
@@ -86,6 +127,21 @@ export class SearchPageComponent implements OnInit {
 
   changeSect(mode: Number): void {
     this.sect = mode;
+  }
+
+  filterUser(name: String): void {
+    this.showSearchResultPOI = this.searchResultPOI.filter((item) => {
+      return item['poi_name'] == name
+    })
+  }
+
+  changeChip(mode: Number, value: any): void {
+    this.selectedChip = mode
+    if (mode != 0) {
+      this.filterUser(value)
+    } else {
+      this.showSearchResultPOI = this.searchResultPOI
+    }
   }
 
 }

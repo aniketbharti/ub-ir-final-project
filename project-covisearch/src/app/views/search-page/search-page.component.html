@@ -5,65 +5,135 @@
   <div class="news">
     <ng-container *ngIf="newList.length == 0">
       <mat-card class="example-card">
-        <mat-card-content>
-          No News Available
-        </mat-card-content>
+        <mat-card-content> No News Available </mat-card-content>
       </mat-card>
     </ng-container>
     <ng-container *ngIf="newList && newList?.length">
-      <mat-card class="example-card" style="margin:20px" *ngFor="let data of newList | slice : 0 : 5">
+      <mat-card class="example-card" style="margin: 20px" *ngFor="let data of newList | slice: 0:5">
         <div>
-          <h4 class="title">{{data.title}}</h4>
-          <h6>{{data.media}} <span style="float: right;">{{data.date}}</span> </h6>
+          <h3 class="title">{{ data.title }}</h3>
+          <h6>
+            {{ data.media }} <span style="float: right">{{ data.date }}</span>
+          </h6>
         </div>
         <mat-card-content>
-          {{data.desc}}
-          Average Sentiment Analysis : {{data.desc}}<br>
-          Sentiment : {{data.sentimentstring}}<br>
-          Avg Sentiment Score : {{data.sentimentvalue}}<br>
+          {{ data.desc }}
+          Average Sentiment Analysis : {{ data.desc }}<br />
+          Sentiment : {{ data.sentimentstring }}<br />
+          Avg Sentiment Score : {{ data.sentimentvalue }}<br />
         </mat-card-content>
         <a mat-button [href]="data.link" class="float: right">View</a>
       </mat-card>
-      <a mat-button class="float: right" *ngIf="newList && newList?.length ">View More</a>
+      <a mat-button class="float: right" *ngIf="newList && newList?.length">View More</a>
     </ng-container>
   </div>
   <div class="main-data">
+    <div id="SEARCH">
+      <div id="DIV_166">
+        <div id="DIV_167">
+          <svg id="svg_168">
+            <g id="g_169">
+              <path id="path_170"></path>
+              <path id="path_171"></path>
+            </g>
+          </svg>
+        </div>
+        <input name="search tweets" value="{{ query }}" type="string" placeholder="Search tweets" id="INPUT_172" />
+        <button id="selected">search</button>
+      </div>
+      <div id="DIV_165">Filter</div>
+    </div>
+    <div id="DIV_173" class="listofbuttons">
+      <div id="DIV_174">
+        <div id="DIV_175">
+          <button (click)="changeChip(0, 0)" [id]="selectedChip == 0 ? 'selected' : 'unselected'">
+            All Topics
+          </button>
+          <button (click)="changeChip(i + 1, chip)" [id]="selectedChip == i + 1 ? 'selected' : 'unselected'"
+            *ngFor="let chip of chipList; let i = index">
+            {{ chip }}
+          </button>
+        </div>
+      </div>
+    </div>
     <mat-tab-group mat-align-tabs="start">
       <mat-tab label="POIs">
         <div class="rowd">
           <div class="user">
-            <mat-card class="example-card" style="margin:20px" *ngFor="let data of searchResultPOI | slice : 0 : 5">
+            <mat-card class="example-card" style="margin: 20px" *ngFor="
+                let data of showSearchResultPOI | slice: 0:5;
+                let i = index
+              ">
               <div>
                 <img src="../../../assets/twitter_social.svg" alt="twitter_profile" height="40px" width="40px" />
-                <span style="margin-left: 10px; vertical-align: super;">{{data?.poi_name}}</span>
+                <span style="margin-left: 10px; vertical-align: super">{{
+                  data?.poi_name
+                  }}</span>
                 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt=""
-                  height="20px" width="20px" style="float: right;" />
+                  height="20px" width="20px" style="float: right" />
               </div>
-              <h4 style="margin-top: 10px;">{{data.country}} <span style="float: right;">{{data.tweet_date | date
-                  :'short'}}</span> </h4>
-              <h3 class="title">{{data.tweet_text}}</h3>
-              <h4>Rank Score: {{data.score}}</h4>
-              <h4 class="title">Sentiment : {{data.sentimentstring}}</h4>
-              <h4 class="title">Avg Sentiment Score : {{data.sentimentvalue}}</h4>
+              <h4 style="margin-top: 10px">
+                {{ data.country }}
+                <span style="float: right">{{
+                  data.tweet_date | date: "short"
+                  }}</span>
+              </h4>
+              <h3 class="title">{{ data.tweet_text }}</h3>
+              <h4>Rank Score: {{ data.score }}</h4>
+              <h4 class="title">Sentiment : {{ data.sentimentstring }}</h4>
+              <h4 class="title">Avg Sentiment Score : {{ data.sentimentvalue }}</h4>
+              <div class="sentiment">
+                <app-sentimentviewer [stackedResult]="data.sentimentgraph"></app-sentimentviewer>
+              </div>
             </mat-card>
           </div>
-          <div class="graph" *ngIf="poisGraph.length > 0 ">
-            <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
+          <div class="graph">
+            <div id="right-article-pane">
+              <mat-card>
+                <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
+              </mat-card>
+              <mat-card class="word-count">
+                <mat-card-header>
+                  <mat-card-title>Word Count</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <p>
+                    <img src="https://www.wolframcloud.com/obj/atularvi/g.png?words={{
+                        wordList
+                      }}" />
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
         </div>
       </mat-tab>
       <mat-tab label="User">
         <div class="rowd">
           <div class="user">
-            <mat-card class="example-card" style="margin:20px" *ngFor="let data of searchResultNonPOI | slice : 0 : 5">
-              <h4>{{data.country}} <span style="float: right;">{{data.tweet_date | date :'short'}}</span> </h4>
-              <h3 class="title">{{data.tweet_text}}</h3>
-              <h4>Rank Score: {{data.score}}</h4>
-              <h4 class="title">Sentiment : {{data.sentimentstring}}</h4>
-              <h4 class="title">Avg Sentiment Score : {{data.sentimentvalue}}</h4>
+            <mat-card class="example-card" style="margin: 20px" *ngFor="
+                let data of searchResultNonPOI | slice: 0:5;
+                let i = index
+              ">
+              <h4>
+                {{ data.country }}
+                <span style="float: right">{{
+                  data.tweet_date | date: "short"
+                  }}</span>
+              </h4>
+              <h3 class="title">{{ data.tweet_text }}</h3>
+              <h4>Rank Score: {{ data.score }}</h4>
+              <h4 class="title">Sentiment : {{ data.sentimentstring }}</h4>
+              <h4 class="title">Avg Sentiment Score : {{ data.sentimentvalue }}</h4>
+              <div class="sentiment">
+                <app-sentimentviewer [stackedResult]="data.sentimentgraph"></app-sentimentviewer>
+              </div>
             </mat-card>
           </div>
           <div class="graph">
+            <div class="graph">
+              <div id="right-article-pane"></div>
+            </div>
           </div>
         </div>
       </mat-tab>

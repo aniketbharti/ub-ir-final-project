@@ -4,7 +4,7 @@ import { GraphDataConverterService } from 'src/app/services/graph.data.converter
 import { HttpService } from 'src/app/services/http.service';
 import { LoaderService } from 'src/app/services/loader.service';
 import { environment } from 'src/environments/environment';
-
+import { multi } from '../../components/data';
 @Component({
   selector: 'app-display-summary',
   templateUrl: './display-summary.component.html',
@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 })
 export class DisplaySummaryComponent implements OnInit {
   res: any | null = null;
+  stackedResult: any[] = [];
   chartResult: any[] = [];
   barResult: any[] = []
   state: boolean = true;
