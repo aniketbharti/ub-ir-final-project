@@ -24,7 +24,7 @@ class TwitterAPI:
         return 1
 
     def get_tweets_by_poi_screen_name(self, config):
-        return tweepy.Cursor(self.api.user_timeline, screen_name=config['screen_name']).items(700)
+        return tweepy.Cursor(self.api.user_timeline, screen_name=config['screen_name']).items(500)
 
     def get_tweets_by_lang_and_keyword(self, config):
         return tweepy.Cursor(self.api.search_tweets, q=config['query'], count=config['count'],

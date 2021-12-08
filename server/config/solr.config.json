@@ -5,7 +5,7 @@
     "indexer": "BM25",
     "params": {
         "fl": "* score",
-        "rows": 10000,
+        "rows": 100,
         "defType": "dismax"
     }
 }
