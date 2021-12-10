@@ -1,4 +1,4 @@
-const baseUrl = "http://3.133.92.115:5000/api/"
+const baseUrl = "http://3.142.153.198:5000/api/"
 
 const url = {
   countries: "https://corona.lmao.ninja/v2/countries",

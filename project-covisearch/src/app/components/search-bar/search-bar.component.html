@@ -1,0 +1,16 @@
+<form [formGroup]="searchForm" (ngSubmit)="onClick()" class="form-class" (keyup.enter)="onClick()">
+    <div class="search-bar">
+        <div class="search-icon">
+            <i class="fa fa-search"></i>
+        </div>
+        <input formControlName="searchTerm" type="text" class="search-text-input"><br />
+        <div *ngIf="showButton && isSubmitted && searchForm?.get('searchTerm')?.invalid" class="error-text">Search Term is
+            Required</div>
+        <div class="search-icon right">
+            <i class="fa fa-microphone" (click)="voiceSearch()"></i>
+        </div>
+    </div>
+    <div class="search-buttons" *ngIf="showButton">
+        <button routerlink="../search-page" type="submit" mat-button class="button-search">Search</button>
+    </div>
+</form>

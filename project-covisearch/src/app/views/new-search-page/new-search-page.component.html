@@ -15,18 +15,8 @@
                     <span class="padding-logo logo-green">h</span>
                 </span>
             </h1>
-            <div class="search-bar">
-                <div class="search-icon">
-                    <i class="fa fa-search"></i>
-                </div>
-                <input #data type="text" class="search-text-input">
-                <div class="search-icon right">
-                    <i class="fa fa-microphone"></i>
-                </div>
-            </div>
-            <div class="search-buttons">
-                <button routerlink="../search-page" (click)="onClick(data.value)" mat-button
-                    class="button-search">Search</button>
+            <div class="search-bar-comp">
+                <app-search-bar [showButton]="true"></app-search-bar>
             </div>
         </div>
     </div>

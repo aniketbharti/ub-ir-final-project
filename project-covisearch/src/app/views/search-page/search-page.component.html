@@ -13,12 +13,11 @@
         <div>
           <h3 class="title">{{ data.title }}</h3>
           <h6>
-            {{ data.media }} <span style="float: right">{{ data.date }}</span>
+            {{ data.source.name }} <span style="float: right">{{ data.publishedAt }}</span>
           </h6>
         </div>
         <mat-card-content>
-          {{ data.desc }}
-          Average Sentiment Analysis : {{ data.desc }}<br />
+          {{ data.content }}
           Sentiment : {{ data.sentimentstring }}<br />
           Avg Sentiment Score : {{ data.sentimentvalue }}<br />
         </mat-card-content>
@@ -28,21 +27,6 @@
     </ng-container>
   </div>
   <div class="main-data">
-    <div id="SEARCH">
-      <div id="DIV_166">
-        <div id="DIV_167">
-          <svg id="svg_168">
-            <g id="g_169">
-              <path id="path_170"></path>
-              <path id="path_171"></path>
-            </g>
-          </svg>
-        </div>
-        <input name="search tweets" value="{{ query }}" type="string" placeholder="Search tweets" id="INPUT_172" />
-        <button id="selected">search</button>
-      </div>
-      <div id="DIV_165">Filter</div>
-    </div>
     <div id="DIV_173" class="listofbuttons">
       <div id="DIV_174">
         <div id="DIV_175">
@@ -60,7 +44,7 @@
       <mat-tab label="POIs">
         <div class="rowd">
           <div class="user">
-            <mat-card class="example-card" style="margin: 20px" *ngFor="
+            <mat-card class="example-card" style="margin: 20px; min-height:300px" *ngFor="
                 let data of showSearchResultPOI | slice: 0:5;
                 let i = index
               ">
@@ -88,21 +72,19 @@
             </mat-card>
           </div>
           <div class="graph">
-            <div id="right-article-pane">
-              <mat-card>
-                <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
-              </mat-card>
+            <div id="right-article-pane" *ngIf="state == false">
               <mat-card class="word-count">
                 <mat-card-header>
                   <mat-card-title>Word Count</mat-card-title>
                 </mat-card-header>
                 <mat-card-content>
                   <p>
-                    <img src="https://www.wolframcloud.com/obj/atularvi/g.png?words={{
-                        wordList
-                      }}" />
+                    <img src="../../../assets/wordcloud1.jpeg" />
                   </p>
                 </mat-card-content>
+              </mat-card>
+              <mat-card>
+                <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
               </mat-card>
             </div>
           </div>
@@ -111,7 +93,7 @@
       <mat-tab label="User">
         <div class="rowd">
           <div class="user">
-            <mat-card class="example-card" style="margin: 20px" *ngFor="
+            <mat-card class="example-card" style="margin: 20px; min-height:350px" *ngFor="
                 let data of searchResultNonPOI | slice: 0:5;
                 let i = index
               ">
@@ -132,7 +114,18 @@
           </div>
           <div class="graph">
             <div class="graph">
-              <div id="right-article-pane"></div>
+              <div id="right-article-pane" *ngIf="state == false">
+                <mat-card class="word-count">
+                  <mat-card-header>
+                    <mat-card-title>Word Count</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>
+                      <img src="../../../assets/wordcloud2.jpeg" />
+                    </p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NewSearchPageComponent } from './views/new-search-page/new-search-page.component';
@@ -21,6 +21,8 @@ import { LoaderService } from './services/loader.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { VerticalStackGraphComponent } from './components/vertical-stack-graph/vertical-stack-graph.component';
 import { SentimentviewerComponent } from './components/sentimentviewer/sentimentviewer.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -35,13 +37,16 @@ import { SentimentviewerComponent } from './components/sentimentviewer/sentiment
     BargraphComponent,
     LoaderComponent,
     VerticalStackGraphComponent,
-    SentimentviewerComponent
+    SentimentviewerComponent,
+    SearchBarComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserTransferStateModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     AppMaterialModule,
+    ReactiveFormsModule,
     HttpClientModule,
     AgGridModule.withComponents([FlagRenderer]),
     NgxChartsModule

@@ -25,7 +25,7 @@ export class DisplaySummaryComponent implements OnInit {
     let country = this.httpService.postMethod(environment.countrytweet, {})
     let pois = this.httpService.postMethod(environment.pois, {})
     forkJoin([country, pois]).subscribe((res) => {
-      this.chartResult = this.graphdata.convertToChart("country", res[0]['response'])
+      this.chartResult = this.graphdata.convertToChart("country", res[0]['response']['docs'])
       this.barResult = this.graphdata.convertToChart("poi_name", res[1]['response'])
       this.loaderService.changeLoaderState({ state: false, location: 'local' })
     })

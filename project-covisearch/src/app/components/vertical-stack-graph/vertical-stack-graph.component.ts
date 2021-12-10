@@ -7,16 +7,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class VerticalStackGraphComponent {
   @Input() vgraphData: any[] = []
-  view: [number, number] = [700, 400];
+  view: [number, number] = [400, 400];
 
   showXAxis: boolean = true;
   showYAxis: boolean = true;
-  gradient: boolean = false;
-  showLegend: boolean = true;
+  gradient: boolean = true;
+  showLegend: boolean = false;
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Country';
   showYAxisLabel: boolean = true;
-  yAxisLabel: string = 'Population';
+  yAxisLabel: string = 'Pois';
   animations: boolean = true;
 
 

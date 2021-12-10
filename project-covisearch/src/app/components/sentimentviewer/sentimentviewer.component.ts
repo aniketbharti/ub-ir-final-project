@@ -7,14 +7,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SentimentviewerComponent {
   @Input() stackedResult: any[] = [];
-  view:[number,number]=[300,100]
-  showXAxis: boolean = true;
+  view:[number,number]=[300,40]
+  showXAxis: boolean = false;
   showYAxis: boolean = true;
-  gradient: boolean = false;
+  gradient: boolean = true;
   showLegend: boolean = false;
-  showXAxisLabel: boolean = true;
-  yAxisLabel: string = 'Pois';
-  showYAxisLabel: boolean = true;
+  showXAxisLabel: boolean = false;
+  yAxisLabel: string = '';
+  showYAxisLabel: boolean = false;
   xAxisLabel: string = '';
 
   constructor() {}
