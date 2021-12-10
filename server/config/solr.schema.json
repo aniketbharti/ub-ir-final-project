@@ -25,6 +25,24 @@
             "indexed": true
         },
         {
+            "name": "related_keyword",
+            "type": "string",
+            "multiValued": false,
+            "indexed": true
+        },
+        {
+            "name": "retweet_count",
+            "type": "plong",
+            "multiValued": false,
+            "indexed": false
+        },
+        {
+            "name": "favorite_count",
+            "type": "plong",
+            "multiValued": false,
+            "indexed": false
+        },
+        {
             "name": "replied_to_tweet_id",
             "type": "plong",
             "multiValued": false,

@@ -1,0 +1,407 @@
+{
+    "searchcomponent": {
+        "add-searchcomponent": {
+            "name": "suggest",
+            "class": "solr.SuggestComponent",
+            "suggester": [
+                {
+                    "name": "suggestor",
+                    "lookupImpl": "FuzzyLookupFactory",
+                    "indexPath": "suggester_infix_dir",
+                    "dictionaryImpl": "DocumentDictionaryFactory",
+                    "field": "tweet_text",
+                    "sortField": "tweet_text",
+                    "storeDir": "suggest_fuzzy_doc_expr_dict",
+                    "suggestAnalyzerFieldType": "text_general",
+                    "buildOnStartup": false,
+                    "buildOnCommit": false
+                }
+            ]
+        }
+    },
+    "requesthandler": {
+        "add-requesthandler": {
+            "name": "customsuggest",
+            "class": "solr.SearchHandler",
+            "defaults": {
+                "suggest": true,
+                "suggest.count": 10
+            },
+            "components": [
+                "suggestor"
+            ]
+        }
+    },
+    "bm25": {
+        "replace-field-type": [
+            {
+                "name": "text_en",
+                "class": "solr.TextField",
+                "positionIncrementGap": "100",
+                "indexAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "words": "lang/stopwords_en.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.EnglishPossessiveFilterFactory"
+                        },
+                        {
+                            "class": "solr.KeywordMarkerFilterFactory",
+                            "protected": "protwords.txt"
+                        },
+                        {
+                            "class": "solr.PorterStemFilterFactory"
+                        }
+                    ]
+                },
+                "similarity": {
+                    "class": "solr.BM25SimilarityFactory",
+                    "b": null,
+                    "k1": null
+                },
+                "queryAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.SynonymGraphFilterFactory",
+                            "expand": "true",
+                            "ignoreCase": "true",
+                            "synonyms": "synonyms.txt"
+                        },
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "words": "lang/stopwords_en.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.EnglishPossessiveFilterFactory"
+                        },
+                        {
+                            "class": "solr.KeywordMarkerFilterFactory",
+                            "protected": "protwords.txt"
+                        },
+                        {
+                            "class": "solr.PorterStemFilterFactory"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "text_hi",
+                "class": "solr.TextField",
+                "positionIncrementGap": "100",
+                "indexAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.IndicNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.HindiNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "format": "snowball",
+                            "words": "lang/stopwords_hi.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.HindiStemFilterFactory"
+                        }
+                    ]
+                },
+                "similarity": {
+                    "class": "solr.BM25SimilarityFactory",
+                    "b": null,
+                    "k1": null
+                },
+                "queryAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.SynonymGraphFilterFactory",
+                            "expand": "true",
+                            "ignoreCase": "true",
+                            "synonyms": "synonyms.txt"
+                        },
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.IndicNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.HindiNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "format": "snowball",
+                            "words": "lang/stopwords_hi.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.HindiStemFilterFactory"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "text_es",
+                "class": "solr.TextField",
+                "positionIncrementGap": "100",
+                "indexAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "format": "snowball",
+                            "words": "lang/stopwords_de.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.SpanishLightStemFilterFactory"
+                        }
+                    ]
+                },
+                "similarity": {
+                    "class": "solr.BM25SimilarityFactory",
+                    "b": null,
+                    "k1": null
+                },
+                "queryAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.SynonymGraphFilterFactory",
+                            "expand": "true",
+                            "ignoreCase": "true",
+                            "synonyms": "synonyms.txt"
+                        },
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "words": "lang/stopwords_es.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.SpanishLightStemFilterFactory"
+                        }
+                    ]
+                }
+            }
+        ]
+    },
+    "vsm": {
+        "replace-field-type": [
+            {
+                "name": "text_en",
+                "class": "solr.TextField",
+                "positionIncrementGap": "100",
+                "indexAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "words": "lang/stopwords_en.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.EnglishPossessiveFilterFactory"
+                        },
+                        {
+                            "class": "solr.KeywordMarkerFilterFactory",
+                            "protected": "protwords.txt"
+                        },
+                        {
+                            "class": "solr.PorterStemFilterFactory"
+                        }
+                    ]
+                },
+                "similarity": {
+                    "class": "solr.ClassicSimilarityFactory"
+                },
+                "queryAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.SynonymGraphFilterFactory",
+                            "expand": "true",
+                            "ignoreCase": "true",
+                            "synonyms": "synonyms.txt"
+                        },
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "words": "lang/stopwords_en.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.EnglishPossessiveFilterFactory"
+                        },
+                        {
+                            "class": "solr.KeywordMarkerFilterFactory",
+                            "protected": "protwords.txt"
+                        },
+                        {
+                            "class": "solr.PorterStemFilterFactory"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "text_hi",
+                "class": "solr.TextField",
+                "positionIncrementGap": "100",
+                "indexAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.IndicNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.HindiNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "format": "snowball",
+                            "words": "lang/stopwords_hi.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.HindiStemFilterFactory"
+                        }
+                    ]
+                },
+                "similarity": {
+                    "class": "solr.ClassicSimilarityFactory"
+                },
+                "queryAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.SynonymGraphFilterFactory",
+                            "expand": "true",
+                            "ignoreCase": "true",
+                            "synonyms": "synonyms.txt"
+                        },
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.IndicNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.HindiNormalizationFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "format": "snowball",
+                            "words": "lang/stopwords_hi.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.HindiStemFilterFactory"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "text_es",
+                "class": "solr.TextField",
+                "positionIncrementGap": "100",
+                "indexAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "format": "snowball",
+                            "words": "lang/stopwords_de.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.SpanishLightStemFilterFactory"
+                        }
+                    ]
+                },
+                "similarity": {
+                    "class": "solr.ClassicSimilarityFactory"
+                },
+                "queryAnalyzer": {
+                    "tokenizer": {
+                        "class": "solr.StandardTokenizerFactory"
+                    },
+                    "filters": [
+                        {
+                            "class": "solr.SynonymGraphFilterFactory",
+                            "expand": "true",
+                            "ignoreCase": "true",
+                            "synonyms": "synonyms.txt"
+                        },
+                        {
+                            "class": "solr.LowerCaseFilterFactory"
+                        },
+                        {
+                            "class": "solr.StopFilterFactory",
+                            "words": "lang/stopwords_es.txt",
+                            "ignoreCase": "true"
+                        },
+                        {
+                            "class": "solr.SpanishLightStemFilterFactory"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
