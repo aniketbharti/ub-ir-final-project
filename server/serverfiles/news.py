@@ -1,13 +1,13 @@
-from GoogleNews import GoogleNews
+
+import requests
 
 
 class News:
     def __init__(self) -> None:
-        self.googlenews = GoogleNews()
+        self.token = '&token=b57d7a775aac393f0c40b1af31c71a57'
+        self.url = 'https://gnews.io/api/v4/search?q='
 
     def get_new(self, text):
-        self.googlenews.search(text)
-        self.googlenews.clear()
-        self.googlenews.getpage(2)
-        result = self.googlenews.result()
-        return result
+        url = self.url + text + self.token
+        r = requests.get(url)
+        return r.json()

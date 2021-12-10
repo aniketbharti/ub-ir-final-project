@@ -11,7 +11,7 @@ class TWPreprocessor:
     @staticmethod
     def read_solr_fields_config():
         data = None
-        with open("../config/twitter.solor.mapping.json") as json_file:
+        with open("/home/ubuntu/IRProject/Project4/server/config/twitter.solor.mapping.json") as json_file:
             data = json.load(json_file)
         return data
 
@@ -39,7 +39,7 @@ class TWPreprocessor:
     @staticmethod
     def _text_cleaner(text):
         emojis = TWPreprocessor.get_emoji_list(text)
-        p.set_options(p.OPT.URL, p.OPT.HASHTAG)
+        p.set_options(p.OPT.URL, p.OPT.HASHTAG, p.OPT.MENTION)
         clean_text = p.clean(text)
         clean_text = demoji.replace(clean_text, '')
         return clean_text, emojis
@@ -84,8 +84,14 @@ class TWPreprocessor:
                                              tweet_lan] = preprocessortext
                             if len(emoticonlist) > 0:
                                 processed_tweets["tweet_emoticons"] = emoticonlist
-                            if 'replied_to_tweet_id' in processed_tweets:
+                        elif key == 'replied_to_tweet_id':
+                            if 'reply_text' in tweet:
+                                preprocessortext, emoticonlist = TWPreprocessor._text_cleaner(
+                                    tweet['reply_text'])
                                 processed_tweets["reply_text"] = preprocessortext
+                            processed_tweets['replied_to_tweet_id'] = fieldValue
+                        elif key == 'related_keyword':
+                            processed_tweets['related_keyword'] = tweet['related_keyword']
                         elif key == 'mentions' and len(fieldValue) > 0:
                             processed_tweets[key] = list(
                                 map(lambda x: x['screen_name'], fieldValue))
