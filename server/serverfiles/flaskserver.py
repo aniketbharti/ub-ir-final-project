@@ -86,7 +86,8 @@ def getnews():
     query = request.json['query']
     news = newsdata.get_new(query)
     for idx, i in enumerate(news['articles']):
-        news['articles'][idx]["sentiments"] = analyze_sentiment(i['description'])
+        news['articles'][idx]["sentiments"] = analyze_sentiment(
+            i['description'])
     return jsonify({"response": news})
 
 
