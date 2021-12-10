@@ -41,7 +41,6 @@ class Solr:
             lang_boast["fl"] = self.params_config["fl"]
             if "rows" not in lang_boast:
                 lang_boast["rows"] = self.params_config["rows"]
-            print(lang_boast, query)
         return self.connection.search(query, **lang_boast)
 
     def get_trending_topic(self):

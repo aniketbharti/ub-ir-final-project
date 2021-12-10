@@ -4,7 +4,7 @@ import requests
 
 class News:
     def __init__(self) -> None:
-        self.token = '&token=b57d7a775aac393f0c40b1af31c71a57'
+        self.token = '&token=1f9f0090bb384446b52e3ad399ac24cf&lang=en'
         self.url = 'https://gnews.io/api/v4/search?q='
 
     def get_new(self, text):
