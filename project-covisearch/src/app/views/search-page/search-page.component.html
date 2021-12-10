@@ -1,8 +1,342 @@
 <div class="global" *ngIf="state == true">
   <app-loader></app-loader>
 </div>
-<div class="parent" *ngIf="state != true">
-  <div class="news">
+<div class="parent" *ngIf="state == false">
+  <div class="filter-section">
+    <mat-card class="card-class">
+      <h1 style="margin: 20px">
+        <b><i>Filter</i></b>
+      </h1>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let task of tasks; let i = index">
+          <mat-expansion-panel-header>
+            <mat-panel-title> {{ task[0] }} </mat-panel-title>
+          </mat-expansion-panel-header>
+          <section class="example-section">
+            <span class="example-list-section">
+              <mat-checkbox
+                class="example-margin"
+                [checked]="allComplete[i]"
+                [indeterminate]="someComplete(i)"
+                (change)="setAll(i, $event.checked)"
+              >
+                {{ task[1].name }}
+              </mat-checkbox>
+            </span>
+            <span class="example-list-section">
+              <ul>
+                <li *ngFor="let subtask of task[1].subtasks">
+                  <mat-checkbox
+                    [(ngModel)]="subtask.completed"
+                    (ngModelChange)="updateAllComplete(i)"
+                  >
+                    {{ subtask.name }}
+                  </mat-checkbox>
+                </li>
+              </ul>
+            </span>
+          </section>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card>
+  </div>
+  <div class="data-class">
+    <mat-tab-group>
+      <mat-tab label="POIs">
+        <div class="tab-content">
+          <div class="user">
+            <mat-card
+              class="example-card"
+              *ngFor="let data of currentItemsToShow; let i = index"
+            >
+              <h5 class="card-header">
+                <img
+                  class="tweet-img"
+                  src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
+                  height="35px"
+                  width="35px"
+                />
+                <span class="spacer"></span>
+                <div class="side-section">
+                  <div class="country">{{ data.country }}</div>
+                  <div>
+                    {{ data.tweet_date | date: "short" }}
+                  </div>
+                </div>
+              </h5>
+              <mat-card-content>
+                <h3 class="title">{{ data.tweet_text }}</h3>
+                <h4 class="title">
+                  <b>Rank Score: {{ data.score }}</b>
+                </h4>
+                <h4 class="title">
+                  <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
+                </h4>
+                <div class="sentiment">
+                  <app-sentimentviewer
+                    [stackedResult]="data.sentimentgraph"
+                  ></app-sentimentviewer
+                  ><br />
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button>LIKE</button>
+                <button mat-button>SHARE</button>
+              </mat-card-actions>
+            </mat-card>
+            <mat-paginator
+              #paginator1
+              (page)="onPageChange($event)"
+              [length]="searchResultNonPOI.length"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+            >
+            </mat-paginator>
+          </div>
+          <div class="graph">
+            <mat-card class="example-card" *ngIf="wikiData">
+              <img
+                mat-card-image
+                *ngIf="wikiData?.img"
+                [src]="wikiData?.img"
+                alt="Photo of a Shiba Inu"
+                height="250px"
+              />
+              <mat-card-content>
+                <h1>{{ wikiData.title }}</h1>
+                <p>
+                  {{
+                    wikiData.extract.length > 300
+                      ? (wikiData.extract | slice: 0:300) + " .."
+                      : wikiData.extract
+                  }}
+                </p>
+                <p>
+                  <a [href]="wikiData?.url"> View Details</a>
+                </p>
+              </mat-card-content>
+            </mat-card>
+            <mat-card class="example-card">
+              <h1 style="margin-left:20px; margin-right:20px"><i>What's Happening</i></h1>
+              <ng-container *ngIf="newList.length == 0">
+                <mat-card class="example-card">
+                  <mat-card-content> No News Available </mat-card-content>
+                </mat-card>
+              </ng-container>
+              <ng-container *ngIf="newList && newList?.length">
+                <mat-card
+                  class="example-card"
+                  style="margin: 20px"
+                  *ngFor="let data of newList | slice: 0:3"
+                >
+                  <img mat-card-image [src]="data.urlToImage" height="150px" />
+                  <div>
+                    <h4 class="title">
+                      <b>{{ data.title }}</b>
+                    </h4>
+                    <h5>
+                      {{ data.source.name }}
+                      <span style="float: right">{{
+                        data.publishedAt | date: "short"
+                      }}</span>
+                    </h5>
+                  </div>
+                  <mat-card-content>
+                    <h4 class="title">
+                      {{
+                        data.content.length > 100
+                          ? (data.content | slice: 0:100) + " .."
+                          : data.content
+                      }}
+                    </h4>
+                    <h5 class="title">
+                      <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
+                    </h5>
+                    <div class="sentiment">
+                      <app-sentimentviewer
+                        [stackedResult]="data.sentimentgraph"
+                      ></app-sentimentviewer
+                      ><br />
+                    </div>
+                  </mat-card-content>
+                  <a [href]="data.url" class="float: right">View</a>
+                </mat-card>
+                <a class="float: right" *ngIf="newList && newList?.length"
+                  >View More</a
+                >
+              </ng-container>
+            </mat-card>
+            <!-- <div class="graph">
+              <div id="right-article-pane" *ngIf="state == false">
+                <mat-card class="word-count">
+                  <mat-card-header>
+                    <mat-card-title>Word Count</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>
+                      <img src="../../../assets/wordcloud2.jpeg" />
+                    </p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="User">
+        <div class="tab-content">
+          <div class="user">
+            <mat-card
+              class="example-card"
+              *ngFor="let data of currentItemsToShow; let i = index"
+            >
+              <h5 class="card-header">
+                <img
+                  class="tweet-img"
+                  src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
+                  height="35px"
+                  width="35px"
+                />
+                <span class="spacer"></span>
+                <div class="side-section">
+                  <div class="country">{{ data.country }}</div>
+                  <div>
+                    {{ data.tweet_date | date: "short" }}
+                  </div>
+                </div>
+              </h5>
+              <mat-card-content>
+                <h3 class="title">{{ data.tweet_text }}</h3>
+                <h4 class="title">
+                  <b>Rank Score: {{ data.score }}</b>
+                </h4>
+                <h4 class="title">
+                  <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
+                </h4>
+                <div class="sentiment">
+                  <app-sentimentviewer
+                    [stackedResult]="data.sentimentgraph"
+                  ></app-sentimentviewer
+                  ><br />
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-button>LIKE</button>
+                <button mat-button>SHARE</button>
+              </mat-card-actions>
+            </mat-card>
+            <mat-paginator
+              #paginator1
+              (page)="onPageChange($event)"
+              [length]="searchResultNonPOI.length"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+            >
+            </mat-paginator>
+          </div>
+          <div class="graph">
+            <mat-card class="example-card" *ngIf="wikiData">
+              <img
+                mat-card-image
+                *ngIf="wikiData?.img"
+                [src]="wikiData?.img"
+                alt="Photo of a Shiba Inu"
+                height="250px"
+              />
+              <mat-card-content>
+                <h1>{{ wikiData.title }}</h1>
+                <p>
+                  {{
+                    wikiData.extract.length > 300
+                      ? (wikiData.extract | slice: 0:300) + " .."
+                      : wikiData.extract
+                  }}
+                </p>
+                <p>
+                  <a [href]="wikiData?.url"> View Details</a>
+                </p>
+              </mat-card-content>
+            </mat-card>
+            <mat-card class="example-card">
+              <h1 style="margin-left:20px; margin-right:20px"><i>What's Happening</i></h1>
+              <ng-container *ngIf="newList.length == 0">
+                <mat-card class="example-card">
+                  <mat-card-content> No News Available </mat-card-content>
+                </mat-card>
+              </ng-container>
+              <ng-container *ngIf="newList && newList?.length">
+                <mat-card
+                  class="example-card"
+                  style="margin: 20px"
+                  *ngFor="let data of newList | slice: 0:3"
+                >
+                  <img mat-card-image [src]="data.urlToImage" height="150px" />
+                  <div>
+                    <h4 class="title">
+                      <b>{{ data.title }}</b>
+                    </h4>
+                    <h5>
+                      {{ data.source.name }}
+                      <span style="float: right">{{
+                        data.publishedAt | date: "short"
+                      }}</span>
+                    </h5>
+                  </div>
+                  <mat-card-content>
+                    <h4 class="title">
+                      {{
+                        data.content.length > 100
+                          ? (data.content | slice: 0:100) + " .."
+                          : data.content
+                      }}
+                    </h4>
+                    <h5 class="title">
+                      <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
+                    </h5>
+                    <div class="sentiment">
+                      <app-sentimentviewer
+                        [stackedResult]="data.sentimentgraph"
+                      ></app-sentimentviewer
+                      ><br />
+                    </div>
+                  </mat-card-content>
+                  <a [href]="data.url" class="float: right">View</a>
+                </mat-card>
+                <a class="float: right" *ngIf="newList && newList?.length"
+                  >View More</a
+                >
+              </ng-container>
+            </mat-card>
+            <!-- <div class="graph">
+              <div id="right-article-pane" *ngIf="state == false">
+                <mat-card class="word-count">
+                  <mat-card-header>
+                    <mat-card-title>Word Count</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>
+                      <img src="../../../assets/wordcloud2.jpeg" />
+                    </p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Analytics">
+        <div class="tab-content">
+          <mat-card>
+            <app-vertical-stack-graph
+              [vgraphData]="poisGraph"
+            ></app-vertical-stack-graph>
+          </mat-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <!-- <div class="news">
     <ng-container *ngIf="newList.length == 0">
       <mat-card class="example-card">
         <mat-card-content> No News Available </mat-card-content>
@@ -131,5 +465,5 @@
         </div>
       </mat-tab>
     </mat-tab-group>
-  </div>
+  </div> -->
 </div>
