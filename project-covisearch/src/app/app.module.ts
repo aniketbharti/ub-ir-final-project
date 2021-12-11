@@ -23,7 +23,7 @@ import { VerticalStackGraphComponent } from './components/vertical-stack-graph/v
 import { SentimentviewerComponent } from './components/sentimentviewer/sentimentviewer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-
+import { ChartjsComponent } from './components/chartjs/chartjs.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +38,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     LoaderComponent,
     VerticalStackGraphComponent,
     SentimentviewerComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    ChartjsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

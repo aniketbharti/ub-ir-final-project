@@ -4,7 +4,7 @@ import { DisplaySummaryComponent } from './views/display-summary/display-summary
 import { NewSearchPageComponent } from './views/new-search-page/new-search-page.component';
 import { SearchPageComponent } from './views/search-page/search-page.component';
 import { StatsPageComponent } from './views/stats-page/stats-page.component';
-
+import { ChartjsComponent } from './components/chartjs/chartjs.component';
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'stats',
-    component: StatsPageComponent,
+    component: ChartjsComponent,
   },
   {
     path: 'summary-stats',
