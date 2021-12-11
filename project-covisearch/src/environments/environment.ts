@@ -8,7 +8,8 @@ const url = {
   news: baseUrl + 'getnews',
   countrytweet: baseUrl + 'country',
   pois: baseUrl + 'pois',
-  wiki: wikipediaUrl
+  wiki: wikipediaUrl,
+  global: baseUrl + 'global'
 }
 
 export const environment = {

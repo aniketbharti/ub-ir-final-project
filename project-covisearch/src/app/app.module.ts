@@ -24,6 +24,8 @@ import { SentimentviewerComponent } from './components/sentimentviewer/sentiment
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { ChartjsComponent } from './components/chartjs/chartjs.component';
+import { AdvPiechartComponent } from './components/adv-piechart/adv-piechart.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +41,8 @@ import { ChartjsComponent } from './components/chartjs/chartjs.component';
     VerticalStackGraphComponent,
     SentimentviewerComponent,
     SearchBarComponent,
-    ChartjsComponent
+    ChartjsComponent,
+    AdvPiechartComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
