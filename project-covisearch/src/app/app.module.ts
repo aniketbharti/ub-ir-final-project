@@ -23,7 +23,7 @@ import { VerticalStackGraphComponent } from './components/vertical-stack-graph/v
 import { SentimentviewerComponent } from './components/sentimentviewer/sentimentviewer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
-import { ChartjsComponent } from './components/chartjs/chartjs.component';
+import { ChartjsComponent } from './components/chartjs/chartjs.component'
 import { AdvPiechartComponent } from './components/adv-piechart/adv-piechart.component';
 
 @NgModule({
