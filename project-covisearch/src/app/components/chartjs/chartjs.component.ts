@@ -2065,12 +2065,14 @@ export class ChartjsComponent implements AfterViewInit {
                         backgroundColor: transparentize('#fa9cb0', 0.3),
 
                         borderColor: '#fa9cb0',
+                        
                       },
                       {
                         data: this.radarCorpusMain.indiaData,
                         label: 'India',
                         backgroundColor: transparentize('#ffcd56', 0.3),
                         borderColor: '#ffcd56',
+                        fill: false,
                       },
 
                       {
