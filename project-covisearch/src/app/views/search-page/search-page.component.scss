@@ -33,6 +33,12 @@
               padding: 7px;
               font-size: 15px;
             }
+            .des{
+              margin-top: 13px;
+              margin-left: 15px;
+              font-weight: 700;
+              font-size: 15px;
+            }
             .side-section {
               margin-top: 13px;
               font-weight: 700;
@@ -80,4 +86,18 @@ ul {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.mat-card{
+  display:flex;
+  flex-direction: column;
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
 }

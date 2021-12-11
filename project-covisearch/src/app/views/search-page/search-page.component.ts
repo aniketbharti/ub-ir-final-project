@@ -15,8 +15,13 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class SearchPageComponent implements OnInit {
   currentItemsToShow: any[] = [];
+  currentItemsToShowPOI: any[] = [];
 
   @ViewChild('paginator1', { static: false }) paginator1:
+    | MatPaginator
+    | undefined;
+
+  @ViewChild('paginator1', { static: false }) paginator2:
     | MatPaginator
     | undefined;
 
@@ -31,6 +36,17 @@ export class SearchPageComponent implements OnInit {
           { name: 'India', completed: false, value: 'India' },
           { name: 'USA', completed: false, value: 'USA' },
           { name: 'Mexico', completed: false, value: 'Mexico' },
+        ],
+      },
+    ],
+    [
+      'POIs',
+      {
+        name: 'All',
+        completed: false,
+        field: 'poi_name',
+        subtasks: [
+          
         ],
       },
     ],
@@ -98,7 +114,7 @@ export class SearchPageComponent implements OnInit {
     });
     this.activedRoute.queryParams.subscribe((params) => {
       this.query = params['query'];
-      this.wikiData = null
+      this.wikiData = null;
       let news = this.httpService.postMethod(environment.news, {
         query: this.query,
       });
@@ -110,17 +126,17 @@ export class SearchPageComponent implements OnInit {
         .getMethod(environment.wiki + queryTerm, {})
         .subscribe((res) => {
           if ('extract' in res && 'title' in res) {
-            this.wikiData = {}
-            this.wikiData['title'] = res['title']
-            this.wikiData['extract'] = res['extract']
-            if('thumbnail' in res){
-              this.wikiData['img'] = res['thumbnail']['source']
+            this.wikiData = {};
+            this.wikiData['title'] = res['title'];
+            this.wikiData['extract'] = res['extract'];
+            if ('thumbnail' in res) {
+              this.wikiData['img'] = res['thumbnail']['source'];
             }
-            if('content_urls' in res){
-              this.wikiData['url'] = res['content_urls']['desktop']['page']
+            if ('content_urls' in res) {
+              this.wikiData['url'] = res['content_urls']['desktop']['page'];
             }
           }
-          console.log(this.wikiData)
+          console.log(this.wikiData);
         });
       this.loaderService.changeLoaderState({ state: true, location: 'local' });
       forkJoin([news, search]).subscribe((res) => {
@@ -149,7 +165,7 @@ export class SearchPageComponent implements OnInit {
           ];
         });
         this.newList = newList;
-        console.log(this.newList)
+        console.log(this.newList);
         this.searchResultNonPOI = [];
         this.searchResultPOI = [];
         let data = res[1]['response']['docs']
@@ -178,7 +194,6 @@ export class SearchPageComponent implements OnInit {
               },
             ];
             this.searchResultPOI.push(element);
-            this.searchTempResultPOI = this.searchResultPOI;
           } else {
             element['sentimentgraph'] = [
               {
@@ -200,9 +215,16 @@ export class SearchPageComponent implements OnInit {
               },
             ];
             this.searchResultNonPOI.push(element);
-            this.searchTempResultNonPOI = this.searchResultNonPOI;
           }
         });
+        this.searchTempResultPOI = this.searchResultPOI;
+        this.searchTempResultNonPOI = this.searchResultNonPOI;
+        const a = _.groupBy(this.searchTempResultPOI, 'poi_name')
+        Object.keys(a).forEach((element:any)=>{
+          this.tasks[1][1].subtasks.push({ name: element, completed: false, value: element })
+        })
+        console.log(this.tasks)
+
         this.poisGraph = this.graphConverter.convertToBarGraph(
           'sentimentstring',
           this.searchTempResultPOI,
@@ -290,6 +312,13 @@ export class SearchPageComponent implements OnInit {
         pageSize: this.paginator1.pageSize,
       });
     }
+    if (this.paginator2) {
+      this.paginator2.pageIndex = 0;
+      this.onPageChange({
+        pageIndex: this.paginator2.pageIndex,
+        pageSize: this.paginator2.pageSize,
+      });
+    }
   }
 
   changeFilter() {
@@ -318,6 +347,10 @@ export class SearchPageComponent implements OnInit {
 
   onPageChange($event: any) {
     this.currentItemsToShow = this.searchResultNonPOI.slice(
+      $event.pageIndex * $event.pageSize,
+      $event.pageIndex * $event.pageSize + $event.pageSize
+    );
+    this.currentItemsToShowPOI = this.searchResultPOI.slice(
       $event.pageIndex * $event.pageSize,
       $event.pageIndex * $event.pageSize + $event.pageSize
     );
