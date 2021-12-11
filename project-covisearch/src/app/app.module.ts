@@ -21,7 +21,7 @@ import { LoaderService } from './services/loader.service';
 import { LoaderComponent } from './components/loader/loader.component';
 import { VerticalStackGraphComponent } from './components/vertical-stack-graph/vertical-stack-graph.component';
 import { SentimentviewerComponent } from './components/sentimentviewer/sentimentviewer.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
@@ -48,6 +48,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     AppMaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
+    FormsModule,
     AgGridModule.withComponents([FlagRenderer]),
     NgxChartsModule
   ],
