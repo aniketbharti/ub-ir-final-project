@@ -27,8 +27,7 @@ class TwitterAPI:
         return tweepy.Cursor(self.api.user_timeline, screen_name=config['screen_name']).items(500)
 
     def get_tweets_by_lang_and_keyword(self, config):
-        return tweepy.Cursor(self.api.search_tweets, q=config['query'], count=config['count'],
-                             since=self.since, until=self.today, tweet_mode='extended', lang=config['lang']).items()
+        return tweepy.Cursor(self.api.search_tweets, q=config['query'], count=config['count'],  tweet_mode='extended', lang=config['lang']).items()
 
     def get_replies(self, config):
         replies = []
@@ -38,3 +37,13 @@ class TwitterAPI:
                 if ('in_reply_to_status_id' in tweet and tweet['in_reply_to_status_id'] == config['tweet_id']):
                     replies.append(tweet)
         return replies
+
+    def get_tweets_by_poi_within(self, config):
+
+        collected_tweets = tweepy.Cursor(
+            self.api.search_tweets, q=f"from:{config['screen_name']} since:{config['since']} until:{config['until']}").items(500)
+
+        for tweet in collected_tweets:
+            print(type(tweet))
+
+        return collected_tweets

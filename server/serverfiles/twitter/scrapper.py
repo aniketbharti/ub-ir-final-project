@@ -1,3 +1,4 @@
+from datetime import date
 import json
 from tweetpreprocessor import TWPreprocessor
 from twitterapi import TwitterAPI
@@ -13,7 +14,7 @@ is_reply_collect_require = True
 class Scrapper:
     def __init__(self) -> None:
         devconfig_details = Scrapper.read_write_json(
-            "read", '/home/ubuntu/IRProject/Project4/server/config/twitter.dev.json', None)["1"]
+            "read", '/home/ubuntu/IRProject/Project4/server/config/twitter.dev.json', None)["default"]
         self.config = Scrapper.read_write_json(
             "read", "/home/ubuntu/IRProject/Project4/server/config/scrapper.config.json", None)
         self.twitter = TwitterAPI(devconfig_details['consumer_key'], devconfig_details['consumer_secret'],
@@ -50,8 +51,8 @@ class Scrapper:
                 if pois["count"] > 0:
                     screen_name = pois['screen_name']
                     print("-------poi started-------->", screen_name)
-                    poi_tweets = self.twitter.get_tweets_by_poi_screen_name(
-                        {'screen_name': screen_name})
+                    poi_tweets = self.twitter.get_tweets_by_poi_within(
+                        {'screen_name': screen_name,'since':'2021-05-01','until':'2021-08-01' })
                     print("----- api finish ------")
                     tweet_id_list = self.config["pois"][idx]["tweet_id_list"]
                     replies_id_list = self.config["pois"][idx]["replies_id_list"]
@@ -117,7 +118,7 @@ class Scrapper:
                     print("----- api finish ------")
                     for tweet in tqdm(keyword_tweets):
                         tweet = tweet._json
-                        tweet['related_keyword'] = keyword['screen_name']
+                        tweet['related_keyword'] = keyword['name']
                         self.config["keywords"][idx]["count"] -= 1
                         if ('retweeted' in tweet and tweet['retweeted']) or tweet['full_text'].lower().startswith("rt @"):
                             self.config["keywords"][idx]["retweeted_count"] += 1
@@ -126,13 +127,13 @@ class Scrapper:
                         unprocessed_tweet.append(tweet)
 
                     Scrapper.read_write_json(
-                        'write', '../../config/scrapper.config.json', self.config)
+                        'write', '/home/ubuntu/IRProject/Project4/server/config/scrapper.config.json', self.config)
                     Scrapper.read_write_json(
-                        'write', '../../data/raw/keywords_' + name + '.json', unprocessed_tweet)
+                        'write', '/home/ubuntu/IRProject/Project4/server/data/raw/keywords_' + name + '.json', unprocessed_tweet)
                     Scrapper.read_write_json(
-                        'write', '../../data/json/keywords_' + name + '.json', processed_tweet)
+                        'write', '/home/ubuntu/IRProject/Project4/server/data/json/keywords_' + name + '.json', processed_tweet)
                     Scrapper.file_read_write(
-                        '../../data/pickle/keywords_' + name + '.pkl', 'wb', processed_tweet)
+                        '/home/ubuntu/IRProject/Project4/server/data/pickle/keywords_' + name + '.pkl', 'wb', processed_tweet)
                     print("-------poi ended-------->")
                     time.sleep(5)
 
