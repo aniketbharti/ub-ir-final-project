@@ -43,7 +43,6 @@ export class DisplaySummaryComponent implements AfterViewInit {
     });
     this.httpService.getMethod(environment.global, {}).subscribe((res) => {
       this.data = res.response.docs;
-      console.log(this.data);
       res.response.docs.forEach((element: any) => {
         if ('poi_name' in element) {
           this.pois.push(element);
@@ -75,10 +74,14 @@ export class DisplaySummaryComponent implements AfterViewInit {
         ele.name = (map as any)[ele.name];
       });
       // ----------------------------------------------------------------
+      debugger
       this.category = this.graphdata.singleLevelDataMapping(
         'category',
         this.data
       );
+      this.category.forEach((ele, idx)=>{ if(ele.name == 'undefined'){
+        this.category[idx].name = 'others'
+      }})
 
       // ----------------------------------------------------------------
       this.barResult = this.graphdata.getDataForTopNumberOfTweetsPOI(this.pois);
@@ -90,12 +93,17 @@ export class DisplaySummaryComponent implements AfterViewInit {
         'poi_name'
       );
 
+      res1.forEach((ele:any, idx:any)=>{
+        ele.series.forEach((item:any, idx2:any)=>{
+          if(item.name == 'undefined'){
+            ele.series.pop(idx2)
+          }
+        })
+      })
+
       this.barResult.forEach((ele) => {
         res1.forEach((ele2) => {
           if (ele.name == ele2.name) {
-            // const a = ele.findIndex((i: any) => (i.name = 'Neutral'));
-            // const value = Math.random() * (60 - 30) + 30
-            // ele[a] = ele[a].value - value
             this.stackedResult.push(ele2);
           }
         });
@@ -141,13 +149,12 @@ export class DisplaySummaryComponent implements AfterViewInit {
           neutral.push(0);
         }
       });
-     
+
       this.multiChartLine = new Chart('multi_chart', {
         type: 'line',
         data: {
           labels: [...Object.keys(this.barResult)],
           datasets: [
-           
             {
               data: positive,
               label: 'Positive',

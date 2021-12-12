@@ -107,22 +107,31 @@
     <div class="col-md-12">
       <div class="card card-class">
         <h5 class="card-header">
-          <b><i>Top 5 Trending</i></b>
+          <b><i>Top 5 Trending Hashtags</i></b>
         </h5>
         <div class="card-body">
           <div class="content">
             <ng-container *ngIf="category.length > 0">
-              <app-gaugechart [gaugeChart]="category"></app-gaugechart>
+              <app-adv-piechart [pieData]="hashTagArray"></app-adv-piechart>
             </ng-container>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-</div>
-  <div style="position: relative;margin:auto; height: 700px; width: 80%">
-    <canvas id="multi_chart"></canvas>
+  <div class="card">
+    <h5 class="card-header">
+      <b><i>Word Cloud</i></b>
+    </h5>
+    <div class="card-body">
+      <img
+        src="http://3.144.209.214:5000/static/english_wordcloud.png"
+        height="600px"
+        width="1000px"
+      />
+    </div>
   </div>
-
-
+</div>
+<div style="position: relative;margin:auto; height: 700px; width: 80%">
+  <canvas id="multi_chart"></canvas>
+</div>

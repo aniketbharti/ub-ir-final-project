@@ -7,6 +7,8 @@ import { forkJoin } from 'rxjs';
 import { LoaderService } from 'src/app/services/loader.service';
 import { GraphDataConverterService } from 'src/app/services/graph.data.converter.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { ReplyModalComponent } from 'src/app/components/reply-modal/reply-modal.component';
 
 @Component({
   selector: 'app-search-page',
@@ -111,7 +113,8 @@ export class SearchPageComponent implements OnInit {
     private httpService: HttpService,
     private activedRoute: ActivatedRoute,
     private loaderService: LoaderService,
-    private graphConverter: GraphDataConverterService
+    private graphConverter: GraphDataConverterService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -224,16 +227,14 @@ export class SearchPageComponent implements OnInit {
         });
         this.searchResultPOI = _.orderBy(
           this.searchResultPOI,
-          ['noofreplies','retweet_count', 'favorite_count'],
+          ['noofreplies', 'retweet_count', 'favorite_count'],
           ['desc', 'desc', 'desc']
         );
         this.searchTempResultNonPOI = _.orderBy(
           this.searchTempResultNonPOI,
-          ['noofreplies','retweet_count', 'favorite_count'],
+          ['noofreplies', 'retweet_count', 'favorite_count'],
           ['desc', 'desc', 'desc']
         );
-
-        console.log(this.searchResultNonPOI);
         this.searchTempResultPOI = this.searchResultPOI;
         this.searchTempResultNonPOI = this.searchResultNonPOI;
         const a = _.groupBy(this.searchTempResultPOI, 'poi_name');
@@ -362,6 +363,14 @@ export class SearchPageComponent implements OnInit {
       filterField
     );
     this.resetPagination();
+  }
+
+  openDialog(data: any): void {
+    const dialogRef = this.dialog.open(ReplyModalComponent, {
+      width: '750px',
+      data: data,
+      panelClass: 'my-dialog'
+    });
   }
 
   onPageChange($event: any) {
