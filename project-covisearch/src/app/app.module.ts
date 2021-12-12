@@ -25,6 +25,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { ChartjsComponent } from './components/chartjs/chartjs.component';
 import { AdvPiechartComponent } from './components/adv-piechart/adv-piechart.component';
+import { GaugechartComponent } from './components/gaugechart/gaugechart.component';
+import { MultiplebargraphComponent } from './components/multiplebargraph/multiplebargraph.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { AdvPiechartComponent } from './components/adv-piechart/adv-piechart.com
     SentimentviewerComponent,
     SearchBarComponent,
     ChartjsComponent,
-    AdvPiechartComponent
+    AdvPiechartComponent,
+    GaugechartComponent,
+    MultiplebargraphComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),

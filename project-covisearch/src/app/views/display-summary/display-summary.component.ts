@@ -21,6 +21,7 @@ export class DisplaySummaryComponent implements OnInit {
   nonpoi: any[] = [];
   chartLanguage: any[] = [];
   hashTagArray: any[] = [];
+  category: any[] = [];
   constructor(
     private httpService: HttpService,
     private graphdata: GraphDataConverterService,
@@ -43,26 +44,34 @@ export class DisplaySummaryComponent implements OnInit {
           this.hashTagArray = [...this.hashTagArray, ...element['hashtags']];
         }
       });
-      let result = _.values(_.groupBy(this.hashTagArray)).map((d) => ({
-        name: d[0],
-        value: d.length,
-      }));
-      this.hashTagArray = _.orderBy(result, ['value'], ['desc']).slice(0, 10);
-      
-      this.chartCountry = this.graphdata.convertToChart('country', this.data);
-      this.chartLanguage = this.graphdata.convertToChart(
+
+      // ---------------------------------------------------------------
+      this.hashTagArray = this.graphdata.gethashTagMapping(this.hashTagArray);
+      // ----------------------------------------------------------
+      this.chartCountry = this.graphdata.singleLevelDataMapping(
+        'country',
+        this.data
+      );
+      this.chartCountry.filter((ele)=> ['India', 'USA', 'Mexico'].includes(ele.name))
+      // ----------------------------------------------------------
+      const map: any = { en: 'English', hi: 'Hindi', es: 'Spanish' };
+      this.chartLanguage = this.graphdata.singleLevelDataMapping(
         'tweet_lang',
         this.data
       );
+      this.chartLanguage.forEach((ele: any) => {
+        ele.name = (map as any)[ele.name];
+      });
+    // ----------------------------------------------------------------
+      this.category = this.graphdata.singleLevelDataMapping(
+        'category',
+        this.data
+      );
+      
+    // ----------------------------------------------------------------
+      this.barResult = this.graphdata.getDataForTopNumberOfTweetsPOI(this.pois);
 
-      let barResult = this.graphdata.convertToChart('poi_name', this.pois);
-
-      this.barResult = _.orderBy(
-        barResult,
-        ['name', 'value'],
-        ['asc', 'desc']
-      ).slice(0, 5);
-      let res1 = this.graphdata.convertToBarGraph(
+      let res1 = this.graphdata.multiLevelDataMapping(
         'sentiments_text',
         this.pois,
         false,
@@ -72,6 +81,7 @@ export class DisplaySummaryComponent implements OnInit {
       this.barResult.forEach((ele) => {
         res1.forEach((ele2) => {
           if (ele.name == ele2.name) {
+            
             // const a = ele.findIndex((i: any) => (i.name = 'Neutral'));
             // const value = Math.random() * (60 - 30) + 30
             // ele[a] = ele[a].value - value
@@ -79,8 +89,18 @@ export class DisplaySummaryComponent implements OnInit {
           }
         });
       });
-      console.log(this.stackedResult);
-
+      let data: any[] = [];
+      this.pois.forEach((ele) => {
+        this.data.forEach((ele2) => {
+          if (ele.id == ele2.replied_to_tweet_id) {
+            if (ele.id in data) {
+              data.push(ele2);
+            } else {
+              data.push(ele2);
+            }
+          }
+        });
+      });
       this.loaderService.changeLoaderState({
         state: false,
         location: 'global',

@@ -4,54 +4,62 @@
 </div>
 <div *ngIf="state != true">
   <div class="row">
-    <div class="col1">
-      <mat-card class="example-card">
-        <mat-card-title
-          ><b><i>Countrywise Distribution of Tweets</i></b></mat-card-title
-        >
-        <div class="content">
-          <ng-container *ngIf="chartCountry.length > 0">
-            <app-piechart
-              class="child"
-              [chartResult]="chartCountry"
-            ></app-piechart>
-          </ng-container>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Countrywise Distribution of Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartCountry.length > 0">
+              <app-piechart
+                class="child"
+                [chartResult]="chartCountry"
+              ></app-piechart>
+            </ng-container>
+          </div>
         </div>
-      </mat-card>
+      </div>
     </div>
-    <div class="col2">
-      <mat-card class="example-card">
-        <mat-card-title
-          ><b><i>Languagewise Distribution of Tweets</i></b></mat-card-title
-        >
-        <div class="content">
-          <ng-container *ngIf="chartCountry.length > 0">
-            <app-piechart
-              class="child"
-              [chartResult]="chartLanguage"
-            ></app-piechart>
-          </ng-container>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Languagewise Distribution of Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartLanguage.length > 0">
+              <app-piechart
+                class="child"
+                [chartResult]="chartLanguage"
+              ></app-piechart>
+            </ng-container>
+          </div>
         </div>
-      </mat-card>
+      </div>
     </div>
-    <div class="row">
-      <div class="col1">
-        <mat-card class="example-card">
-          <mat-card-title
-            ><b><i>Top 5 Pois V Number of Tweets</i></b></mat-card-title
-          >
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Top 5 Most Tweeted POIs</i></b>
+        </h5>
+        <div class="card-body">
           <div class="content">
             <ng-container *ngIf="barResult.length > 0">
               <app-bargraph [barResult]="barResult"></app-bargraph>
             </ng-container>
           </div>
-        </mat-card>
+        </div>
       </div>
-      <div class="col2">
-        <mat-card class="example-card">
-          <mat-card-title
-            ><b><i>POI Tweet and Sentiment</i></b
-          ></mat-card-title>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Sentiment Analysis of Top 5 POIs Tweets</i></b>
+        </h5>
+        <div class="card-body">
           <div class="content">
             <ng-container *ngIf="chartCountry.length > 0">
               <app-vertical-stack-graph
@@ -59,23 +67,56 @@
               ></app-vertical-stack-graph>
             </ng-container>
           </div>
-        </mat-card>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <mat-card class="example-card">
-        <mat-card-title
-          ><b><i>POI Tweet and Sentiment</i></b
-        ></mat-card-title>
-        <div class="content">
-          <ng-container *ngIf="chartCountry.length > 0">
-            <app-adv-piechart
-              [pieData]="hashTagArray"
-            ></app-adv-piechart>
-          </ng-container>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Countrywise Distribution of Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="barResult.length > 0">
+              <app-gaugechart [gaugeChart]="category"></app-gaugechart>
+            </ng-container>
+          </div>
         </div>
-      </mat-card>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Countrywise Distribution of Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartCountry.length > 0">
+              <app-vertical-stack-graph
+                [vgraphData]="stackedResult"
+              ></app-vertical-stack-graph>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Top 5 Trending</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="category.length > 0">
+              <app-gaugechart [gaugeChart]="category"></app-gaugechart>
+            </ng-container>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-

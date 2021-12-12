@@ -10,3 +10,19 @@ body {
 @import "ag-grid-community/dist/styles/ag-grid.css";
 @import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
+.advanced-pie-legend .legend-items-container .legend-items {
+  overflow: initial !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items.legend-item .item-value {
+  margin-top: 10px !important;
+}
+
+.advanced-pie-legend .total-label{
+  margin-top: 10px !important;
+}
+
+.advanced-pie-legend .legend-items-container .legend-items .legend-item .item-label {
+ 
+  margin-top: 5px !important;
+}

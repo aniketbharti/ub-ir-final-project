@@ -8,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class AdvPiechartComponent {
   @Input() pieData: any[] =[]
   single: any[] = [];
-  view: [number, number] = [1360, 500];
+  view: [number, number] = [600, 600];
 
   gradient: boolean = true;
   showLegend: boolean = true;
