@@ -145,7 +145,7 @@ export class DisplaySummaryComponent implements AfterViewInit {
       this.multiChartLine = new Chart('multi_chart', {
         type: 'line',
         data: {
-          labels: [...Object.keys(this.barResult)],
+          labels: [...this.barResult.map((ele) => ele.name)],
           datasets: [
            
             {
