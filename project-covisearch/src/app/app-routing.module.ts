@@ -12,11 +12,11 @@ const routes: Routes = [
   },
   {
     path: 'stats',
-    component: ChartjsComponent,
+    component: StatsPageComponent,
   },
   {
     path: 'summary-stats',
-    component: StatsPageComponent,
+    component: DisplaySummaryComponent,
   },
   {
     path: 'search',

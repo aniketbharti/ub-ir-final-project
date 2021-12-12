@@ -128,36 +128,41 @@ export class DisplaySummaryComponent implements AfterViewInit  {
         data: {
           labels: [...Object.keys(this.barResult)],
           datasets: [
-            {
-              data: [...this.barResult.map((ele) => ele.value)],
-              label: 'No. of Tweets',
-              backgroundColor: transparentize('#fa9cb0', 0.3),
-              borderColor: '#fa9cb0',
-              yAxisID: 'y',
-              type: 'bar',
-            },
+           
             {
               data: positive,
               label: 'Positive',
-              backgroundColor: transparentize('#3e95cd', 0.3),
+              backgroundColor: transparentize('#4bc0c0', 0.3),
 
-              borderColor: '#3e95cd',
+              borderColor: '#4bc0c0',
 
               yAxisID: 'y1',
             },
             {
               data: negative,
               label: 'Negative',
-              backgroundColor: transparentize('#ffcd56', 0.2),
-              borderColor: '#ffcd56',
+              backgroundColor: transparentize('#ef5353', 0.2),
+              borderColor: '#ef5353',
               yAxisID: 'y1',
             },
             {
               data: neutral,
               label: 'Neutral',
-              backgroundColor: transparentize('#ffcd56', 0.2),
-              borderColor: '#ffcd56',
+              backgroundColor: transparentize('#3e95cd', 0.2),
+              borderColor: '#3e95cd',
               yAxisID: 'y1',
+            },
+            {
+              data: [...this.barResult.map((ele) => ele.value)],
+              label: 'No. of Tweets',
+              backgroundColor: transparentize('#fa9cb0', 0.3),
+              borderColor: '#fa9cb0',
+              yAxisID: 'y',
+              borderWidth: 2,
+              barThickness: 50,
+              barPercentage: 0.5,
+              borderRadius: 5,
+              type: 'bar',
             },
           ],
         },
@@ -166,7 +171,7 @@ export class DisplaySummaryComponent implements AfterViewInit  {
           plugins: {
             title: {
               display: true,
-              text: 'Dose Coverage',
+              text: "Sentiment Analysis On POI's Tweets",
             },
           },
           scales: {
@@ -174,6 +179,9 @@ export class DisplaySummaryComponent implements AfterViewInit  {
               type: 'linear',
               display: true,
               position: 'left',
+              grid: {
+                drawOnChartArea: false, // only want the grid lines for one axis to show up
+              },
             },
             y1: {
               type: 'linear',
