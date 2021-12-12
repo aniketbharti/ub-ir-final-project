@@ -109,6 +109,7 @@ export class SearchPageComponent implements OnInit {
     Negative:
       'http://cdn.shopify.com/s/files/1/1061/1924/products/Sad_Face_Emoji_grande.png?v=1571606037',
   };
+  hashTagArray: any[] =[];
   constructor(
     private httpService: HttpService,
     private activedRoute: ActivatedRoute,
@@ -180,6 +181,9 @@ export class SearchPageComponent implements OnInit {
           ? this.manipulateDisplaySentiment(res[1]['response']['docs'])
           : [];
         data.forEach((element) => {
+          if ('hashtags' in element) {
+            this.hashTagArray = [...this.hashTagArray, ...element['hashtags']];
+          }
           if ('poi_name' in element) {
             this.chipList.add(element['poi_name']);
             element['sentimentgraph'] = [
@@ -251,6 +255,7 @@ export class SearchPageComponent implements OnInit {
           false,
           'poi_name'
         );
+        this.hashTagArray = this.graphConverter.gethashTagMapping(this.hashTagArray);
         this.loaderService.changeLoaderState({
           state: false,
           location: 'local',
@@ -260,6 +265,7 @@ export class SearchPageComponent implements OnInit {
         }, 300);
       });
     });
+
   }
 
   updateAllComplete(i: number) {

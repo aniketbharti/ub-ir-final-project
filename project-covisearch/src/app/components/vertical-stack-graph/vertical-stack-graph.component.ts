@@ -14,9 +14,9 @@ export class VerticalStackGraphComponent {
   gradient: boolean = true;
   showLegend: boolean = false;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Country';
+  xAxisLabel: string = 'Pois';
   showYAxisLabel: boolean = true;
-  yAxisLabel: string = 'Pois';
+  yAxisLabel: string = 'Tweet';
   animations: boolean = true;
 
 

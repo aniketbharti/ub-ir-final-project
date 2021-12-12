@@ -415,7 +415,7 @@
         </div>
       </mat-tab>
       <mat-tab label="Analytics">
-        <div class="tab-content">
+        <div>
           <div class="row">
             <div class="col-md-6">
               <div class="card card-class">
@@ -441,7 +441,27 @@
                 <div class="card-body">
                   <div class="content">
                     <img
-                      src="http://3.144.209.214:5000/static/english_wordcloud.png" height="400px" width="400px"
+                      src="http://3.144.209.214:5000/static/english_wordcloud.png"
+                      height="400px"
+                      width="400px"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card card-class">
+                <h5 class="card-header">
+                  <b><i>Word Cloud</i></b>
+                </h5>
+                <div class="card-body">
+                  <div class="content">
+                    <img
+                      src="http://3.144.209.214:5000/static/english_wordcloud.png"
+                      height="400px"
+                      width="400px"
                     />
                   </div>
                 </div>
@@ -452,135 +472,4 @@
       </mat-tab>
     </mat-tab-group>
   </div>
-
-  <!-- <div class="news">
-    <ng-container *ngIf="newList.length == 0">
-      <mat-card class="example-card">
-        <mat-card-content> No News Available </mat-card-content>
-      </mat-card>
-    </ng-container>
-    <ng-container *ngIf="newList && newList?.length">
-      <mat-card class="example-card" style="margin: 20px" *ngFor="let data of newList | slice: 0:5">
-        <div>
-          <h3 class="title">{{ data.title }}</h3>
-          <h6>
-            {{ data.source.name }} <span style="float: right">{{ data.publishedAt }}</span>
-          </h6>
-        </div>
-        <mat-card-content>
-          {{ data.content }}
-          Sentiment : {{ data.sentimentstring }}<br />
-          Avg Sentiment Score : {{ data.sentimentvalue }}<br />
-        </mat-card-content>
-        <a mat-button [href]="data.link" class="float: right">View</a>
-      </mat-card>
-      <a mat-button class="float: right" *ngIf="newList && newList?.length">View More</a>
-    </ng-container>
-  </div>
-  <div class="main-data">
-    <div id="DIV_173" class="listofbuttons">
-      <div id="DIV_174">
-        <div id="DIV_175">
-          <button (click)="changeChip(0, 0)" [id]="selectedChip == 0 ? 'selected' : 'unselected'">
-            All Topics
-          </button>
-          <button (click)="changeChip(i + 1, chip)" [id]="selectedChip == i + 1 ? 'selected' : 'unselected'"
-            *ngFor="let chip of chipList; let i = index">
-            {{ chip }}
-          </button>
-        </div>
-      </div>
-    </div>
-    <mat-tab-group mat-align-tabs="start">
-      <mat-tab label="POIs">
-        <div class="rowd">
-          <div class="user">
-            <mat-card class="example-card" style="margin: 20px; min-height:300px" *ngFor="
-                let data of showSearchResultPOI | slice: 0:5;
-                let i = index
-              ">
-              <div>
-                <img src="../../../assets/twitter_social.svg" alt="twitter_profile" height="40px" width="40px" />
-                <span style="margin-left: 10px; vertical-align: super">{{
-                  data?.poi_name
-                  }}</span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt=""
-                  height="20px" width="20px" style="float: right" />
-              </div>
-              <h4 style="margin-top: 10px">
-                {{ data.country }}
-                <span style="float: right">{{
-                  data.tweet_date | date: "short"
-                  }}</span>
-              </h4>
-              <h3 class="title">{{ data.tweet_text }}</h3>
-              <h4>Rank Score: {{ data.score }}</h4>
-              <h4 class="title">Sentiment : {{ data.sentimentstring }}</h4>
-              <h4 class="title">Avg Sentiment Score : {{ data.sentimentvalue }}</h4>
-              <div class="sentiment">
-                <app-sentimentviewer [stackedResult]="data.sentimentgraph"></app-sentimentviewer>
-              </div>
-            </mat-card>
-          </div>
-          <div class="graph">
-            <div id="right-article-pane" *ngIf="state == false">
-              <mat-card class="word-count">
-                <mat-custom-card-header>
-                  <mat-card-title>Word Count</mat-card-title>
-                </mat-custom-card-header>
-                <mat-card-content>
-                  <p>
-                    <img src="../../../assets/wordcloud1.jpeg" />
-                  </p>
-                </mat-card-content>
-              </mat-card>
-              <mat-card>
-                <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
-              </mat-card>
-            </div>
-          </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="User">
-        <div class="rowd">
-          <div class="user">
-            <mat-card class="example-card" style="margin: 20px; min-height:350px" *ngFor="
-                let data of searchResultNonPOI | slice: 0:5;
-                let i = index
-              ">
-              <h4>
-                {{ data.country }}
-                <span style="float: right">{{
-                  data.tweet_date | date: "short"
-                  }}</span>
-              </h4>
-              <h3 class="title">{{ data.tweet_text }}</h3>
-              <h4>Rank Score: {{ data.score }}</h4>
-              <h4 class="title">Sentiment : {{ data.sentimentstring }}</h4>
-              <h4 class="title">Avg Sentiment Score : {{ data.sentimentvalue }}</h4>
-              <div class="sentiment">
-                <app-sentimentviewer [stackedResult]="data.sentimentgraph"></app-sentimentviewer>
-              </div>
-            </mat-card>
-          </div>
-          <div class="graph">
-            <div class="graph">
-              <div id="right-article-pane" *ngIf="state == false">
-                <mat-card class="word-count">
-                  <mat-custom-card-header>
-                    <mat-card-title>Word Count</mat-card-title>
-                  </mat-custom-card-header>
-                  <mat-card-content>
-                    <p>
-                      <img src="../../../assets/wordcloud2.jpeg" />
-                    </p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-            </div>
-          </div>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div> -->
 </div>

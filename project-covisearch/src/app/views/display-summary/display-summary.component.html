@@ -75,7 +75,7 @@
     <div class="col-md-6">
       <div class="card card-class">
         <h5 class="card-header">
-          <b><i>Countrywise Distribution of Tweets</i></b>
+          <b><i>Tweet Genre Distribution</i></b>
         </h5>
         <div class="card-body">
           <div class="content">
@@ -89,14 +89,13 @@
     <div class="col-md-6">
       <div class="card card-class">
         <h5 class="card-header">
-          <b><i>Countrywise Distribution of Tweets</i></b>
+          <b><i>Sentiment Analysis Poi Replies</i></b>
         </h5>
         <div class="card-body">
           <div class="content">
             <ng-container *ngIf="chartCountry.length > 0">
-              <app-vertical-stack-graph
-                [vgraphData]="stackedResult"
-              ></app-vertical-stack-graph>
+              <app-multiplebargraph [multi]="replyUser"></app-multiplebargraph>
+              app-multiplebargraph
             </ng-container>
           </div>
         </div>
@@ -132,6 +131,6 @@
     </div>
   </div>
 </div>
-<div style="position: relative;margin:auto; height: 700px; width: 80%">
+<div style="position: relative; margin: auto; height: 700px; width: 80%">
   <canvas id="multi_chart"></canvas>
 </div>
