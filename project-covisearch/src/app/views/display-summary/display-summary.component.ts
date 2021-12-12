@@ -16,7 +16,7 @@ function transparentize(value: any, opacity: any) {
   templateUrl: './display-summary.component.html',
   styleUrls: ['./display-summary.component.scss'],
 })
-export class DisplaySummaryComponent implements AfterViewInit  {
+export class DisplaySummaryComponent implements AfterViewInit {
   res: any | null = null;
   stackedResult: any[] = [];
   chartCountry: any[] = [];
@@ -27,6 +27,7 @@ export class DisplaySummaryComponent implements AfterViewInit  {
   nonpoi: any[] = [];
   chartLanguage: any[] = [];
   hashTagArray: any[] = [];
+  category: any[] = [];
   private multiChartLine: any;
 
   constructor(
@@ -34,8 +35,7 @@ export class DisplaySummaryComponent implements AfterViewInit  {
     private graphdata: GraphDataConverterService,
     private loaderService: LoaderService
   ) {}
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.loaderService.loaderListener().subscribe((res: any) => {
@@ -54,26 +54,36 @@ export class DisplaySummaryComponent implements AfterViewInit  {
           this.hashTagArray = [...this.hashTagArray, ...element['hashtags']];
         }
       });
-      let result = _.values(_.groupBy(this.hashTagArray)).map((d) => ({
-        name: d[0],
-        value: d.length,
-      }));
-      this.hashTagArray = _.orderBy(result, ['value'], ['desc']).slice(0, 10);
 
-      this.chartCountry = this.graphdata.convertToChart('country', this.data);
-      this.chartLanguage = this.graphdata.convertToChart(
+      // ---------------------------------------------------------------
+      this.hashTagArray = this.graphdata.gethashTagMapping(this.hashTagArray);
+      // ----------------------------------------------------------
+      this.chartCountry = this.graphdata.singleLevelDataMapping(
+        'country',
+        this.data
+      );
+      this.chartCountry.filter((ele) =>
+        ['India', 'USA', 'Mexico'].includes(ele.name)
+      );
+      // ----------------------------------------------------------
+      const map: any = { en: 'English', hi: 'Hindi', es: 'Spanish' };
+      this.chartLanguage = this.graphdata.singleLevelDataMapping(
         'tweet_lang',
         this.data
       );
+      this.chartLanguage.forEach((ele: any) => {
+        ele.name = (map as any)[ele.name];
+      });
+      // ----------------------------------------------------------------
+      this.category = this.graphdata.singleLevelDataMapping(
+        'category',
+        this.data
+      );
 
-      let barResult = this.graphdata.convertToChart('poi_name', this.pois);
+      // ----------------------------------------------------------------
+      this.barResult = this.graphdata.getDataForTopNumberOfTweetsPOI(this.pois);
 
-      this.barResult = _.orderBy(
-        barResult,
-        ['name', 'value'],
-        ['asc', 'desc']
-      ).slice(0, 5);
-      let res1 = this.graphdata.convertToBarGraph(
+      let res1 = this.graphdata.multiLevelDataMapping(
         'sentiments_text',
         this.pois,
         false,
@@ -90,35 +100,44 @@ export class DisplaySummaryComponent implements AfterViewInit  {
           }
         });
       });
+      let data: any[] = [];
+      this.pois.forEach((ele) => {
+        this.data.forEach((ele2) => {
+          if (ele.id == ele2.replied_to_tweet_id) {
+            if (ele.id in data) {
+              data.push(ele2);
+            } else {
+              data.push(ele2);
+            }
+          }
+        });
+      });
       console.log(this.barResult);
       console.log(this.stackedResult);
       let label: any = [];
       let positive: any = [];
       let negative: any = [];
       let neutral: any = [];
-      this.stackedResult.forEach((ele,idx) => {
+      this.stackedResult.forEach((ele, idx) => {
         label.push(ele.name);
 
         ele['series'].forEach((ele2: any) => {
           if (ele2.name == 'Positive') {
             positive.push(ele2.value);
-          }
-          else if (ele2.name == 'Negative') {
+          } else if (ele2.name == 'Negative') {
             negative.push(ele2.value);
-          }
-          else if (ele2.name == 'Neutral') {
+          } else if (ele2.name == 'Neutral') {
             neutral.push(ele2.value);
           }
         });
 
-        if(idx != positive.length - 1){
+        if (idx != positive.length - 1) {
           positive.push(0);
-          
         }
-        if(idx != negative.length - 1){
+        if (idx != negative.length - 1) {
           negative.push(0);
         }
-        if(idx != neutral.length - 1){
+        if (idx != neutral.length - 1) {
           neutral.push(0);
         }
       });
@@ -187,16 +206,13 @@ export class DisplaySummaryComponent implements AfterViewInit  {
               type: 'linear',
               display: true,
               position: 'right',
-
-              // grid line settings
               grid: {
-                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                drawOnChartArea: false,
               },
             },
           },
         },
       });
-
       this.loaderService.changeLoaderState({
         state: false,
         location: 'global',

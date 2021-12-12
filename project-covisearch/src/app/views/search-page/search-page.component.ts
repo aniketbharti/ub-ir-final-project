@@ -45,9 +45,7 @@ export class SearchPageComponent implements OnInit {
         name: 'All',
         completed: false,
         field: 'poi_name',
-        subtasks: [
-          
-        ],
+        subtasks: [],
       },
     ],
     [
@@ -101,6 +99,14 @@ export class SearchPageComponent implements OnInit {
   poisGraph: any[] = [];
   chipList = new Set();
   wikiData: any | null;
+  emojiIcon: any = {
+    Happy:
+      'https://www.clipartmax.com/png/middle/283-2834862_happy-smile-emoji-emoticon-icon-smiley.png',
+    Neutral:
+      'https://www.clipartmax.com/png/middle/263-2637285_neutral-emoji-png-transparent-background-rh-clipart-community-college-of-the-air.png',
+    Negative:
+      'http://cdn.shopify.com/s/files/1/1061/1924/products/Sad_Face_Emoji_grande.png?v=1571606037',
+  };
   constructor(
     private httpService: HttpService,
     private activedRoute: ActivatedRoute,
@@ -165,7 +171,6 @@ export class SearchPageComponent implements OnInit {
           ];
         });
         this.newList = newList;
-        console.log(this.newList);
         this.searchResultNonPOI = [];
         this.searchResultPOI = [];
         let data = res[1]['response']['docs']
@@ -217,15 +222,29 @@ export class SearchPageComponent implements OnInit {
             this.searchResultNonPOI.push(element);
           }
         });
+        this.searchResultPOI = _.orderBy(
+          this.searchResultPOI,
+          ['noofreplies','retweet_count', 'favorite_count'],
+          ['desc', 'desc', 'desc']
+        );
+        this.searchTempResultNonPOI = _.orderBy(
+          this.searchTempResultNonPOI,
+          ['noofreplies','retweet_count', 'favorite_count'],
+          ['desc', 'desc', 'desc']
+        );
+
+        console.log(this.searchResultNonPOI);
         this.searchTempResultPOI = this.searchResultPOI;
         this.searchTempResultNonPOI = this.searchResultNonPOI;
-        const a = _.groupBy(this.searchTempResultPOI, 'poi_name')
-        Object.keys(a).forEach((element:any)=>{
-          this.tasks[1][1].subtasks.push({ name: element, completed: false, value: element })
-        })
-        console.log(this.tasks)
-
-        this.poisGraph = this.graphConverter.convertToBarGraph(
+        const a = _.groupBy(this.searchTempResultPOI, 'poi_name');
+        Object.keys(a).forEach((element: any) => {
+          this.tasks[1][1].subtasks.push({
+            name: element,
+            completed: false,
+            value: element,
+          });
+        });
+        this.poisGraph = this.graphConverter.multiLevelDataMapping(
           'sentimentstring',
           this.searchTempResultPOI,
           false,
