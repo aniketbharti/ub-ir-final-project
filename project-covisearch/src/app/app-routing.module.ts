@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'summary-stats',
-    component: DisplaySummaryComponent,
+    component: StatsPageComponent,
   },
   {
     path: 'search',

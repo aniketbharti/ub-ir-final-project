@@ -122,24 +122,18 @@ export class DisplaySummaryComponent implements AfterViewInit  {
           neutral.push(0);
         }
       });
-      console.log('==========================');
-      console.log(label);
-      console.log(positive);
-
-      console.log(negative);
-      console.log(neutral);
-      console.log('==========================');
+     
       this.multiChartLine = new Chart('multi_chart', {
         type: 'line',
         data: {
           labels: [...Object.keys(this.barResult)],
           datasets: [
             {
-              data: [...Object.values(this.barResult)],
+              data: [...this.barResult.map((ele) => ele.value)],
               label: 'No. of Tweets',
               backgroundColor: transparentize('#fa9cb0', 0.3),
               borderColor: '#fa9cb0',
-              yAxisID: 'y1',
+              yAxisID: 'y',
               type: 'bar',
             },
             {
@@ -149,21 +143,21 @@ export class DisplaySummaryComponent implements AfterViewInit  {
 
               borderColor: '#3e95cd',
 
-              yAxisID: 'y',
+              yAxisID: 'y1',
             },
             {
               data: negative,
               label: 'Negative',
               backgroundColor: transparentize('#ffcd56', 0.2),
               borderColor: '#ffcd56',
-              yAxisID: 'y',
+              yAxisID: 'y1',
             },
             {
               data: neutral,
               label: 'Neutral',
               backgroundColor: transparentize('#ffcd56', 0.2),
               borderColor: '#ffcd56',
-              yAxisID: 'y',
+              yAxisID: 'y1',
             },
           ],
         },
