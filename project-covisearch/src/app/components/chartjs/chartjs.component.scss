@@ -1,9 +1,13 @@
-.charts {
-  display: grid;
-  grid-template-columns: 1fr 1.8fr;
-  grid-row-gap: 40px;
-  align-items: center;
-  margin-left: 20px;
-  margin-right: 20px;
-  margin-top: 20px;
+.charts{
+    display: grid;
+    grid-template-columns: 1fr 1.8fr;
+    grid-row-gap:40px;
+    grid-column-gap:20px;
+    align-items: center;
+    margin-left:20px;
+    margin-right:20px;
+    margin-top: 20px;
+    // div{
+    //     align-items: center;
+    // }
 }
