@@ -20,5 +20,39 @@
             </div>
         </div>
     </div>
-    
+    <mat-card class="example-card">
+        
+        <ng-container *ngIf="newList.length == 0">
+          <mat-card class="example-card">
+            <mat-card-content> No News Available </mat-card-content>
+          </mat-card>
+        </ng-container>
+        <div class="search-news">
+
+            <ng-container *ngIf="newList && newList?.length">
+                <mat-card
+                  class="example-card"
+                  style="margin: 20px"
+                  *ngFor="let data of newList | slice: 0:6"
+                >
+                  <img mat-card-image [src]="data.urlToImage" height="150px" />
+                  <div>
+                    <h4 class="title">
+                      <b>{{ data?.title }}</b>
+                    </h4>
+                    <h5>
+                      {{ data.source?.name }}
+                      <span style="float: right">{{
+                        data?.publishedAt | date: "short"
+                      }}</span>
+                    </h5>
+                  </div>
+                  
+                  <a [href]="data.url" class="float: right">View</a>
+                </mat-card>
+              </ng-container>
+        </div>
+        
+      </mat-card>
+
 </div>
