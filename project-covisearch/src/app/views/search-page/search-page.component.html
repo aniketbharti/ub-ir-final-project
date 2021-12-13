@@ -45,49 +45,104 @@
       <mat-tab label="POIs">
         <div class="tab-content">
           <div class="user">
-            <mat-card
-              class="example-card"
-              *ngFor="let data of currentItemsToShow; let i = index"
-            >
-              <h5 class="card-header">
-                <img
-                  class="tweet-img"
-                  src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
-                  height="35px"
-                  width="35px"
-                />
-                <span class="spacer"></span>
-                <div class="side-section">
-                  <div class="country">{{ data.country }}</div>
-                  <div>
-                    {{ data.tweet_date | date: "short" }}
+            <ng-container *ngIf="currentItemsToShowPOI.length == 0">
+              <mat-card class="example-card">
+                <mat-card-content>
+                  <h3><i>No Data Available</i></h3>
+                </mat-card-content>
+              </mat-card>
+            </ng-container>
+            <ng-container *ngIf="currentItemsToShowPOI.length > 0">
+              <mat-card
+                class="example-card"
+                *ngFor="let data of currentItemsToShowPOI; let i = index"
+              >
+                <h5 class="custom-card-header">
+                  <img
+                    class="tweet-img"
+                    src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
+                    height="35px"
+                    width="35px"
+                  />
+                  <div class="des">
+                    <span>{{ data.poi_name }}</span>
+                    <img
+                      src="data:image/jpeg;base64,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"
+                      height="15px"
+                      width="20px"
+                      style="margin: 5px"
+                    />
                   </div>
-                </div>
-              </h5>
-              <mat-card-content>
-                <h3 class="title">{{ data.tweet_text }}</h3>
-                <h4 class="title">
-                  <b>Rank Score: {{ data.score }}</b>
-                </h4>
-                <h4 class="title">
-                  <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
-                </h4>
-                <div class="sentiment">
-                  <app-sentimentviewer
-                    [stackedResult]="data.sentimentgraph"
-                  ></app-sentimentviewer
-                  ><br />
-                </div>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-              </mat-card-actions>
-            </mat-card>
+                  <span class="spacer"></span>
+                  <div class="side-section">
+                    <div>{{ data.country }}</div>
+                    <div>
+                      {{ data.tweet_date | date: "short" }}
+                    </div>
+                  </div>
+                </h5>
+                <mat-card-content>
+                  <h3 class="title">{{ data.tweet_text }}</h3>
+                  <h4 class="title">
+                    <b>Rank Score: {{ data.score }}</b>
+                  </h4>
+                  <h4 class="title">
+                    <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
+                  </h4>
+                  <div class="sentiment">
+                    <app-sentimentviewer
+                      [stackedResult]="data.sentimentgraph"
+                    ></app-sentimentviewer
+                    ><br />
+                  </div>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>
+                    <img
+                      height="15px"
+                      weight="15px"
+                      src="https://www.clipartmax.com/png/middle/285-2858379_twitter-retweet-icon.png"
+                    />
+                    {{ data.retweet_count }}
+                  </button>
+                  <button
+                    mat-button
+                    style="margin-left: 30px; margin-right: 30px"
+                  >
+                    <img
+                      height="15px"
+                      weight="15px"
+                      src="data:image/png;base64,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"
+                    />
+                    {{ data.favorite_count }}
+                  </button>
+                  <button mat-button>
+                    <img
+                      height="15px"
+                      weight="15px"
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWjQPaet9bqi8QTbWNvPDoRty9dF9-sJWjng&usqp=CAU"
+                    />
+                    {{ data.noofreplies }}
+                  </button>
+
+                  <button mat-button>
+                    <img
+                      height="15px"
+                      weight="15px"
+                      [src]="emojiIcon[data.sentimentstring]"
+                    />
+                    {{ data.sentimentstring }}
+                  </button>
+                  <button mat-button (click)="openDialog(data.replies)">
+                    View Reply
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </ng-container>
             <mat-paginator
-              #paginator1
+              #paginator2
               (page)="onPageChange($event)"
-              [length]="searchResultNonPOI.length"
+              [length]="searchResultPOI.length"
               [pageSize]="5"
               [pageSizeOptions]="[5, 10, 25, 100]"
             >
@@ -117,7 +172,9 @@
               </mat-card-content>
             </mat-card>
             <mat-card class="example-card">
-              <h1 style="margin-left:20px; margin-right:20px"><i>What's Happening</i></h1>
+              <h1 style="margin-left: 20px; margin-right: 20px">
+                <i>What's Happening</i>
+              </h1>
               <ng-container *ngIf="newList.length == 0">
                 <mat-card class="example-card">
                   <mat-card-content> No News Available </mat-card-content>
@@ -161,17 +218,14 @@
                   </mat-card-content>
                   <a [href]="data.url" class="float: right">View</a>
                 </mat-card>
-                <a class="float: right" *ngIf="newList && newList?.length"
-                  >View More</a
-                >
               </ng-container>
             </mat-card>
             <!-- <div class="graph">
               <div id="right-article-pane" *ngIf="state == false">
                 <mat-card class="word-count">
-                  <mat-card-header>
+                  <mat-custom-card-header>
                     <mat-card-title>Word Count</mat-card-title>
-                  </mat-card-header>
+                  </mat-custom-card-header>
                   <mat-card-content>
                     <p>
                       <img src="../../../assets/wordcloud2.jpeg" />
@@ -186,45 +240,93 @@
       <mat-tab label="User">
         <div class="tab-content">
           <div class="user">
-            <mat-card
-              class="example-card"
-              *ngFor="let data of currentItemsToShow; let i = index"
-            >
-              <h5 class="card-header">
-                <img
-                  class="tweet-img"
-                  src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
-                  height="35px"
-                  width="35px"
-                />
-                <span class="spacer"></span>
-                <div class="side-section">
-                  <div class="country">{{ data.country }}</div>
-                  <div>
-                    {{ data.tweet_date | date: "short" }}
+            <ng-container *ngIf="currentItemsToShow.length == 0">
+              <mat-card class="example-card">
+                <mat-card-content>
+                  <h3><i>No Data Available</i></h3></mat-card-content
+                >
+              </mat-card>
+            </ng-container>
+            <ng-container *ngIf="currentItemsToShow.length > 0">
+              <mat-card
+                class="example-card"
+                *ngFor="let data of currentItemsToShow; let i = index"
+              >
+                <h5 class="custom-card-header">
+                  <img
+                    class="tweet-img"
+                    src="https://cdn4.iconfinder.com/data/icons/social-media-icons-the-circle-set/48/twitter_circle-512.png"
+                    height="35px"
+                    width="35px"
+                  />
+                  <span class="spacer"></span>
+                  <div class="side-section">
+                    <div>{{ data.country }}</div>
+                    <div>
+                      {{ data.tweet_date | date: "short" }}
+                    </div>
                   </div>
-                </div>
-              </h5>
-              <mat-card-content>
-                <h3 class="title">{{ data.tweet_text }}</h3>
-                <h4 class="title">
-                  <b>Rank Score: {{ data.score }}</b>
-                </h4>
-                <h4 class="title">
-                  <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
-                </h4>
-                <div class="sentiment">
-                  <app-sentimentviewer
-                    [stackedResult]="data.sentimentgraph"
-                  ></app-sentimentviewer
-                  ><br />
-                </div>
-              </mat-card-content>
-              <mat-card-actions>
-                <button mat-button>LIKE</button>
-                <button mat-button>SHARE</button>
-              </mat-card-actions>
-            </mat-card>
+                </h5>
+                <mat-card-content>
+                  <h3 class="title">{{ data.tweet_text }}</h3>
+                  <h4 class="title">
+                    <b>Rank Score: {{ data.score }}</b>
+                  </h4>
+                  <h4 class="title">
+                    <b>Avg Sentiment Score : {{ data.sentimentvalue }}</b>
+                  </h4>
+                  <div class="sentiment">
+                    <app-sentimentviewer
+                      [stackedResult]="data.sentimentgraph"
+                    ></app-sentimentviewer
+                    ><br />
+                  </div>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>
+                    <img
+                      height="15px"
+                      weight="15px"
+                      src="https://www.clipartmax.com/png/middle/285-2858379_twitter-retweet-icon.png"
+                    />
+                    {{ data.retweet_count }}
+                  </button>
+                  <button
+                    mat-button
+                    style="margin-left: 30px; margin-right: 30px"
+                  >
+                    <img
+                      height="15px"
+                      weight="15px"
+                      src="data:image/png;base64,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"
+                    />
+                    {{ data.favorite_count }}
+                  </button>
+                  <button
+                    mat-button
+                    style="margin-left: 30px; margin-right: 30px"
+                  >
+                    <img
+                      height="15px"
+                      weight="15px"
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWjQPaet9bqi8QTbWNvPDoRty9dF9-sJWjng&usqp=CAU"
+                    />
+                    {{ data.noofreplies }}
+                  </button>
+                  <button
+                    mat-button
+                    style="margin-left: 30px; margin-right: 30px"
+                  >
+                    <img
+                      height="15px"
+                      weight="15px"
+                      [src]="emojiIcon[data.sentimentstring]"
+                    />
+                    {{ data.sentimentstring }}
+                  </button>
+                </mat-card-actions>
+              </mat-card>
+            </ng-container>
             <mat-paginator
               #paginator1
               (page)="onPageChange($event)"
@@ -258,7 +360,9 @@
               </mat-card-content>
             </mat-card>
             <mat-card class="example-card">
-              <h1 style="margin-left:20px; margin-right:20px"><i>What's Happening</i></h1>
+              <h1 style="margin-left: 20px; margin-right: 20px">
+                <i>What's Happening</i>
+              </h1>
               <ng-container *ngIf="newList.length == 0">
                 <mat-card class="example-card">
                   <mat-card-content> No News Available </mat-card-content>
@@ -267,7 +371,7 @@
               <ng-container *ngIf="newList && newList?.length">
                 <mat-card
                   class="example-card"
-                  style="margin: 20px"
+                  style="margin: 17px; overflow: hidden"
                   *ngFor="let data of newList | slice: 0:3"
                 >
                   <img mat-card-image [src]="data.urlToImage" height="150px" />
@@ -307,163 +411,65 @@
                 >
               </ng-container>
             </mat-card>
-            <!-- <div class="graph">
-              <div id="right-article-pane" *ngIf="state == false">
-                <mat-card class="word-count">
-                  <mat-card-header>
-                    <mat-card-title>Word Count</mat-card-title>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <p>
-                      <img src="../../../assets/wordcloud2.jpeg" />
-                    </p>
-                  </mat-card-content>
-                </mat-card>
-              </div>
-            </div> -->
           </div>
         </div>
       </mat-tab>
       <mat-tab label="Analytics">
-        <div class="tab-content">
-          <mat-card>
-            <app-vertical-stack-graph
-              [vgraphData]="poisGraph"
-            ></app-vertical-stack-graph>
-          </mat-card>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
-
-  <!-- <div class="news">
-    <ng-container *ngIf="newList.length == 0">
-      <mat-card class="example-card">
-        <mat-card-content> No News Available </mat-card-content>
-      </mat-card>
-    </ng-container>
-    <ng-container *ngIf="newList && newList?.length">
-      <mat-card class="example-card" style="margin: 20px" *ngFor="let data of newList | slice: 0:5">
         <div>
-          <h3 class="title">{{ data.title }}</h3>
-          <h6>
-            {{ data.source.name }} <span style="float: right">{{ data.publishedAt }}</span>
-          </h6>
-        </div>
-        <mat-card-content>
-          {{ data.content }}
-          Sentiment : {{ data.sentimentstring }}<br />
-          Avg Sentiment Score : {{ data.sentimentvalue }}<br />
-        </mat-card-content>
-        <a mat-button [href]="data.link" class="float: right">View</a>
-      </mat-card>
-      <a mat-button class="float: right" *ngIf="newList && newList?.length">View More</a>
-    </ng-container>
-  </div>
-  <div class="main-data">
-    <div id="DIV_173" class="listofbuttons">
-      <div id="DIV_174">
-        <div id="DIV_175">
-          <button (click)="changeChip(0, 0)" [id]="selectedChip == 0 ? 'selected' : 'unselected'">
-            All Topics
-          </button>
-          <button (click)="changeChip(i + 1, chip)" [id]="selectedChip == i + 1 ? 'selected' : 'unselected'"
-            *ngFor="let chip of chipList; let i = index">
-            {{ chip }}
-          </button>
-        </div>
-      </div>
-    </div>
-    <mat-tab-group mat-align-tabs="start">
-      <mat-tab label="POIs">
-        <div class="rowd">
-          <div class="user">
-            <mat-card class="example-card" style="margin: 20px; min-height:300px" *ngFor="
-                let data of showSearchResultPOI | slice: 0:5;
-                let i = index
-              ">
-              <div>
-                <img src="../../../assets/twitter_social.svg" alt="twitter_profile" height="40px" width="40px" />
-                <span style="margin-left: 10px; vertical-align: super">{{
-                  data?.poi_name
-                  }}</span>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e4/Twitter_Verified_Badge.svg" alt=""
-                  height="20px" width="20px" style="float: right" />
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-class">
+                <h5 class="card-header">
+                  <b><i>Sentiment Analysis on POI tweets</i></b>
+                </h5>
+                <div class="card-body">
+                  <div class="content">
+                    <ng-container *ngIf="poisGraph.length > 0">
+                      <app-vertical-stack-graph
+                        [vgraphData]="poisGraph"
+                      ></app-vertical-stack-graph>
+                    </ng-container>
+                  </div>
+                </div>
               </div>
-              <h4 style="margin-top: 10px">
-                {{ data.country }}
-                <span style="float: right">{{
-                  data.tweet_date | date: "short"
-                  }}</span>
-              </h4>
-              <h3 class="title">{{ data.tweet_text }}</h3>
-              <h4>Rank Score: {{ data.score }}</h4>
-              <h4 class="title">Sentiment : {{ data.sentimentstring }}</h4>
-              <h4 class="title">Avg Sentiment Score : {{ data.sentimentvalue }}</h4>
-              <div class="sentiment">
-                <app-sentimentviewer [stackedResult]="data.sentimentgraph"></app-sentimentviewer>
+            </div>
+            <div class="col-md-6">
+              <div class="card card-class">
+                <h5 class="card-header">
+                  <b><i>Word Cloud</i></b>
+                </h5>
+                <div class="card-body">
+                  <div class="content">
+                    <img
+                      src="http://3.144.209.214:5000/static/english_wordcloud.png"
+                      height="400px"
+                      width="400px"
+                    />
+                  </div>
+                </div>
               </div>
-            </mat-card>
-          </div>
-          <div class="graph">
-            <div id="right-article-pane" *ngIf="state == false">
-              <mat-card class="word-count">
-                <mat-card-header>
-                  <mat-card-title>Word Count</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>
-                    <img src="../../../assets/wordcloud1.jpeg" />
-                  </p>
-                </mat-card-content>
-              </mat-card>
-              <mat-card>
-                <app-vertical-stack-graph [vgraphData]="poisGraph"></app-vertical-stack-graph>
-              </mat-card>
             </div>
           </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="User">
-        <div class="rowd">
-          <div class="user">
-            <mat-card class="example-card" style="margin: 20px; min-height:350px" *ngFor="
-                let data of searchResultNonPOI | slice: 0:5;
-                let i = index
-              ">
-              <h4>
-                {{ data.country }}
-                <span style="float: right">{{
-                  data.tweet_date | date: "short"
-                  }}</span>
-              </h4>
-              <h3 class="title">{{ data.tweet_text }}</h3>
-              <h4>Rank Score: {{ data.score }}</h4>
-              <h4 class="title">Sentiment : {{ data.sentimentstring }}</h4>
-              <h4 class="title">Avg Sentiment Score : {{ data.sentimentvalue }}</h4>
-              <div class="sentiment">
-                <app-sentimentviewer [stackedResult]="data.sentimentgraph"></app-sentimentviewer>
-              </div>
-            </mat-card>
-          </div>
-          <div class="graph">
-            <div class="graph">
-              <div id="right-article-pane" *ngIf="state == false">
-                <mat-card class="word-count">
-                  <mat-card-header>
-                    <mat-card-title>Word Count</mat-card-title>
-                  </mat-card-header>
-                  <mat-card-content>
-                    <p>
-                      <img src="../../../assets/wordcloud2.jpeg" />
-                    </p>
-                  </mat-card-content>
-                </mat-card>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card card-class">
+                <h5 class="card-header">
+                  <b><i>Word Cloud</i></b>
+                </h5>
+                <div class="card-body">
+                  <div class="content">
+                    <img
+                      src="http://3.144.209.214:5000/static/english_wordcloud.png"
+                      height="400px"
+                      width="400px"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </mat-tab>
     </mat-tab-group>
-  </div> -->
+  </div>
 </div>

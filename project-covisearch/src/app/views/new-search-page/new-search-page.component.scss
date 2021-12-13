@@ -1,7 +1,7 @@
 .search-background {
   height: 100%;
   width: 100%;
-  overflow: hidden;
+  overflow: scroll;
   .content {
     flex: 1;
     display: flex;
@@ -48,6 +48,17 @@
     }
   }
 }
+.search-news {
+  width:70%;
+  margin-left:auto;
+  margin-right:auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 18px;
+  grid-column-gap: 12px;
+  align-items: center;
+
+}
 
 @media only screen and (max-width: 1100px) {
   .search-wrapper {
@@ -56,7 +67,7 @@
       width: 90% !important;
       font-size: 2em !important;
     }
-    .search-bar-comp{
+    .search-bar-comp {
       width: 80% !important;
     }
   }

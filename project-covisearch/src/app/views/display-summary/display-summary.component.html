@@ -1,20 +1,136 @@
-<mat-toolbar>
-    Statistics
-</mat-toolbar>
+<mat-toolbar> Statistics </mat-toolbar>
 <div class="global" *ngIf="state == true">
-    <app-loader></app-loader>
+  <app-loader></app-loader>
 </div>
-<div class="center-class" *ngIf="state != true">
-    <ng-container *ngIf="chartResult.length > 0">
-        <h3><i>Total Number of Tweets Vs Country</i></h3>
-        <app-piechart [chartResult]="chartResult"></app-piechart>
-    </ng-container>
-    <ng-container *ngIf="barResult.length > 0">
-        <h3><i>Pois Vs No of Tweets</i></h3>
-        <app-bargraph [barResult]="barResult"></app-bargraph>
-    </ng-container>
-    <ng-container>
-        <h3><i>Sentiment</i></h3>
-        <app-sentimentviewer [stackedResult]="stackedResult"></app-sentimentviewer>
-    </ng-container>
+<div *ngIf="state != true">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Countrywise Distribution of Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartCountry.length > 0">
+              <app-piechart
+                class="child"
+                [chartResult]="chartCountry"
+              ></app-piechart>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Languagewise Distribution of Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartLanguage.length > 0">
+              <app-piechart
+                class="child"
+                [chartResult]="chartLanguage"
+              ></app-piechart>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Top 5 Most Tweeted POIs</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="barResult.length > 0">
+              <app-bargraph [barResult]="barResult"></app-bargraph>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Sentiment Analysis of Top 5 POIs Tweets</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartCountry.length > 0">
+              <app-vertical-stack-graph
+                [vgraphData]="stackedResult"
+              ></app-vertical-stack-graph>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Tweet Genre Distribution</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="barResult.length > 0">
+              <app-gaugechart [gaugeChart]="category"></app-gaugechart>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Sentiment Analysis Poi Replies</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="chartCountry.length > 0">
+              <app-multiplebargraph [multi]="replyUser"></app-multiplebargraph>
+              app-multiplebargraph
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card card-class">
+        <h5 class="card-header">
+          <b><i>Top 5 Trending Hashtags</i></b>
+        </h5>
+        <div class="card-body">
+          <div class="content">
+            <ng-container *ngIf="category.length > 0">
+              <app-adv-piechart [pieData]="hashTagArray"></app-adv-piechart>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h5 class="card-header">
+      <b><i>Word Cloud</i></b>
+    </h5>
+    <div class="card-body">
+      <img
+        src="http://3.144.209.214:5000/static/english_wordcloud.png"
+        height="600px"
+        width="1000px"
+      />
+    </div>
+  </div>
+</div>
+<div style="position: relative; margin: auto; height: 700px; width: 80%">
+  <canvas id="multi_chart"></canvas>
 </div>

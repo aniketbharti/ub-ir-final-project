@@ -1,0 +1,77 @@
+.example-card {
+    margin: 20px;
+    min-height: 250px;
+    overflow-wrap: break-word;
+    .custom-card-header {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: flex-start;
+      .tweet-img {
+        padding-top: 7px;
+      }
+      .heading-text {
+        padding: 7px;
+        font-size: 15px;
+      }
+      .des{
+        margin-top: 13px;
+        margin-left: 15px;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .side-section {
+        margin-top: 13px;
+        font-weight: 700;
+        .country {
+          margin-left: 70%;
+        }
+      }
+    }
+    .sentiment {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 5px;
+    }
+  }
+
+  ::ng-deep.mat-tab-label,
+::ng-deep.mat-tab-label-active {
+  min-width: 30% !important;
+  padding: 3px !important;
+  margin: 3px !important;
+}
+
+ul {
+  list-style-type: none;
+  margin-top: 4px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.mat-card{
+  display:flex;
+  flex-direction: column;
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.cdk-overlay-pane.my-dialog {
+    position: relative!important;
+  }
+  .close.mat-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }

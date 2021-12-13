@@ -1,4 +1,4 @@
-const baseUrl = "http://3.142.189.231:5000/api/"
+const baseUrl = "http://3.144.209.214:5000/api/"
 const wikipediaUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/'
 
 const url = {
@@ -8,7 +8,8 @@ const url = {
   news: baseUrl + 'getnews',
   countrytweet: baseUrl + 'country',
   pois: baseUrl + 'pois',
-  wiki: wikipediaUrl
+  wiki: wikipediaUrl,
+  global: baseUrl + 'global'
 }
 
 export const environment = {

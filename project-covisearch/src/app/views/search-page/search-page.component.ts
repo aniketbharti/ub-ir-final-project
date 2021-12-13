@@ -7,6 +7,8 @@ import { forkJoin } from 'rxjs';
 import { LoaderService } from 'src/app/services/loader.service';
 import { GraphDataConverterService } from 'src/app/services/graph.data.converter.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { ReplyModalComponent } from 'src/app/components/reply-modal/reply-modal.component';
 
 @Component({
   selector: 'app-search-page',
@@ -15,8 +17,13 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class SearchPageComponent implements OnInit {
   currentItemsToShow: any[] = [];
+  currentItemsToShowPOI: any[] = [];
 
   @ViewChild('paginator1', { static: false }) paginator1:
+    | MatPaginator
+    | undefined;
+
+  @ViewChild('paginator1', { static: false }) paginator2:
     | MatPaginator
     | undefined;
 
@@ -32,6 +39,15 @@ export class SearchPageComponent implements OnInit {
           { name: 'USA', completed: false, value: 'USA' },
           { name: 'Mexico', completed: false, value: 'Mexico' },
         ],
+      },
+    ],
+    [
+      'POIs',
+      {
+        name: 'All',
+        completed: false,
+        field: 'poi_name',
+        subtasks: [],
       },
     ],
     [
@@ -85,11 +101,21 @@ export class SearchPageComponent implements OnInit {
   poisGraph: any[] = [];
   chipList = new Set();
   wikiData: any | null;
+  emojiIcon: any = {
+    Happy:
+      'https://www.clipartmax.com/png/middle/283-2834862_happy-smile-emoji-emoticon-icon-smiley.png',
+    Neutral:
+      'https://www.clipartmax.com/png/middle/263-2637285_neutral-emoji-png-transparent-background-rh-clipart-community-college-of-the-air.png',
+    Negative:
+      'http://cdn.shopify.com/s/files/1/1061/1924/products/Sad_Face_Emoji_grande.png?v=1571606037',
+  };
+  hashTagArray: any[] =[];
   constructor(
     private httpService: HttpService,
     private activedRoute: ActivatedRoute,
     private loaderService: LoaderService,
-    private graphConverter: GraphDataConverterService
+    private graphConverter: GraphDataConverterService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -98,7 +124,7 @@ export class SearchPageComponent implements OnInit {
     });
     this.activedRoute.queryParams.subscribe((params) => {
       this.query = params['query'];
-      this.wikiData = null
+      this.wikiData = null;
       let news = this.httpService.postMethod(environment.news, {
         query: this.query,
       });
@@ -110,17 +136,17 @@ export class SearchPageComponent implements OnInit {
         .getMethod(environment.wiki + queryTerm, {})
         .subscribe((res) => {
           if ('extract' in res && 'title' in res) {
-            this.wikiData = {}
-            this.wikiData['title'] = res['title']
-            this.wikiData['extract'] = res['extract']
-            if('thumbnail' in res){
-              this.wikiData['img'] = res['thumbnail']['source']
+            this.wikiData = {};
+            this.wikiData['title'] = res['title'];
+            this.wikiData['extract'] = res['extract'];
+            if ('thumbnail' in res) {
+              this.wikiData['img'] = res['thumbnail']['source'];
             }
-            if('content_urls' in res){
-              this.wikiData['url'] = res['content_urls']['desktop']['page']
+            if ('content_urls' in res) {
+              this.wikiData['url'] = res['content_urls']['desktop']['page'];
             }
           }
-          console.log(this.wikiData)
+          console.log(this.wikiData);
         });
       this.loaderService.changeLoaderState({ state: true, location: 'local' });
       forkJoin([news, search]).subscribe((res) => {
@@ -149,13 +175,15 @@ export class SearchPageComponent implements OnInit {
           ];
         });
         this.newList = newList;
-        console.log(this.newList)
         this.searchResultNonPOI = [];
         this.searchResultPOI = [];
         let data = res[1]['response']['docs']
           ? this.manipulateDisplaySentiment(res[1]['response']['docs'])
           : [];
         data.forEach((element) => {
+          if ('hashtags' in element) {
+            this.hashTagArray = [...this.hashTagArray, ...element['hashtags']];
+          }
           if ('poi_name' in element) {
             this.chipList.add(element['poi_name']);
             element['sentimentgraph'] = [
@@ -178,7 +206,6 @@ export class SearchPageComponent implements OnInit {
               },
             ];
             this.searchResultPOI.push(element);
-            this.searchTempResultPOI = this.searchResultPOI;
           } else {
             element['sentimentgraph'] = [
               {
@@ -200,15 +227,35 @@ export class SearchPageComponent implements OnInit {
               },
             ];
             this.searchResultNonPOI.push(element);
-            this.searchTempResultNonPOI = this.searchResultNonPOI;
           }
         });
-        this.poisGraph = this.graphConverter.convertToBarGraph(
+        this.searchResultPOI = _.orderBy(
+          this.searchResultPOI,
+          ['noofreplies', 'retweet_count', 'favorite_count'],
+          ['desc', 'desc', 'desc']
+        );
+        this.searchTempResultNonPOI = _.orderBy(
+          this.searchTempResultNonPOI,
+          ['noofreplies', 'retweet_count', 'favorite_count'],
+          ['desc', 'desc', 'desc']
+        );
+        this.searchTempResultPOI = this.searchResultPOI;
+        this.searchTempResultNonPOI = this.searchResultNonPOI;
+        const a = _.groupBy(this.searchTempResultPOI, 'poi_name');
+        Object.keys(a).forEach((element: any) => {
+          this.tasks[1][1].subtasks.push({
+            name: element,
+            completed: false,
+            value: element,
+          });
+        });
+        this.poisGraph = this.graphConverter.multiLevelDataMapping(
           'sentimentstring',
           this.searchTempResultPOI,
           false,
           'poi_name'
         );
+        this.hashTagArray = this.graphConverter.gethashTagMapping(this.hashTagArray);
         this.loaderService.changeLoaderState({
           state: false,
           location: 'local',
@@ -218,6 +265,7 @@ export class SearchPageComponent implements OnInit {
         }, 300);
       });
     });
+
   }
 
   updateAllComplete(i: number) {
@@ -290,6 +338,13 @@ export class SearchPageComponent implements OnInit {
         pageSize: this.paginator1.pageSize,
       });
     }
+    if (this.paginator2) {
+      this.paginator2.pageIndex = 0;
+      this.onPageChange({
+        pageIndex: this.paginator2.pageIndex,
+        pageSize: this.paginator2.pageSize,
+      });
+    }
   }
 
   changeFilter() {
@@ -316,8 +371,20 @@ export class SearchPageComponent implements OnInit {
     this.resetPagination();
   }
 
+  openDialog(data: any): void {
+    const dialogRef = this.dialog.open(ReplyModalComponent, {
+      width: '750px',
+      data: data,
+      panelClass: 'my-dialog'
+    });
+  }
+
   onPageChange($event: any) {
     this.currentItemsToShow = this.searchResultNonPOI.slice(
+      $event.pageIndex * $event.pageSize,
+      $event.pageIndex * $event.pageSize + $event.pageSize
+    );
+    this.currentItemsToShowPOI = this.searchResultPOI.slice(
       $event.pageIndex * $event.pageSize,
       $event.pageIndex * $event.pageSize + $event.pageSize
     );
