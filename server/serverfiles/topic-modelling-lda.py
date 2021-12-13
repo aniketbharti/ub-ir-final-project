@@ -13,7 +13,7 @@ nltk.download('stopwords')
 ps = PorterStemmer()
 
 train = True
-model_path = "../data/model/lda_model.pk"
+model_path = "/home/ubuntu/IRProject/Project4/server/data/model/lda_model.pk"
 
 
 class TopicModeling:

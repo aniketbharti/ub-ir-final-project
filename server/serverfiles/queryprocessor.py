@@ -7,7 +7,7 @@ from solr import solr
 run_config = "/home/ubuntu/IRProject/Project4/server/config/solr.config.json"
 translator = Translator()
 
-run_config = "../config/solr.config.json"
+run_config = "/home/ubuntu/IRProject/Project4/server/config/solr.config.json"
 
 
 class QueryProcessor:

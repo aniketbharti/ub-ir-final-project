@@ -14,6 +14,7 @@
     "@ag-grid-community/angular": "^26.2.0",
     "@angular/animations": "~12.2.0",
     "@angular/cdk": "^12.2.13",
+    "@angular/cli": "^12.2.14",
     "@angular/common": "~12.2.0",
     "@angular/compiler": "~12.2.0",
     "@angular/core": "^12.2.14",
@@ -37,7 +38,6 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~12.2.8",
-    "@angular/cli": "^12.2.8",
     "@angular/compiler-cli": "~12.2.0",
     "@types/d3": "^7.1.0",
     "@types/d3-selection": "^3.0.2",

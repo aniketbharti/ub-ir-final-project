@@ -9,7 +9,7 @@ import random
 import preprocessor as p
 p.set_options(p.OPT.MENTION, p.OPT.URL)
 
-path = "../data/pickle"
+path = "/home/ubuntu/IRProject/Project4/server/data/pickle"
 custom_edit = True
 table = str.maketrans(dict.fromkeys(string.punctuation))
 retweet_count_idx = np.random.choice(300, 200)

@@ -3,11 +3,11 @@ import pysolr
 import requests
 from utility import UtilityClass
 
-AWS_IP = '3.144.209.214'
+AWS_IP = '18.117.250.176'
 
-schema = "../config/solr.schema.json"
-run_config = "../config/solr.config.json"
-solr_setting_config = "../config/config_solr_setting.json"
+schema = "/home/ubuntu/IRProject/Project4/server/config/solr.schema.json"
+run_config = "/home/ubuntu/IRProject/Project4/server/config/solr.config.json"
+solr_setting_config = "/home/ubuntu/IRProject/Project4/server/config/config_solr_setting.json"
 
 
 class Solr:
