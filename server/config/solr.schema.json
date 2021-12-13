@@ -31,6 +31,12 @@
             "indexed": true
         },
         {
+            "name": "category",
+            "type": "string",
+            "multiValued": false,
+            "indexed": true
+        },
+        {
             "name": "retweet_count",
             "type": "plong",
             "multiValued": false,

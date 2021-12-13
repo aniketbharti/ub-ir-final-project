@@ -35,7 +35,7 @@ class QueryProcessor:
             lang_boost_v = lang_boost_v + " tweet_hashtags^3"
         res = self.search(
             search_query, {
-                "qf": "text_en text_de text_ru tweet_hashtags",
+                "qf": "text_en text_hi text_es tweet_hashtags",
                 "pf": lang_boost,
                 "defType": "dismax"
             })

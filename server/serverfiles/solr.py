@@ -3,7 +3,7 @@ import pysolr
 import requests
 from utility import UtilityClass
 
-AWS_IP = '3.142.189.231'
+AWS_IP = '3.144.209.214'
 
 schema = "../config/solr.schema.json"
 run_config = "../config/solr.config.json"
@@ -42,9 +42,6 @@ class Solr:
             if "rows" not in lang_boast:
                 lang_boast["rows"] = self.params_config["rows"]
         return self.connection.search(query, **lang_boast)
-
-    def get_trending_topic(self):
-        pass
 
     def add_fields(self):
         if self.data_schema:
