@@ -5,6 +5,6 @@
     "indexer": "BM25",
     "params": {
         "fl": "* score",
-        "rows": 4000
+        "rows": 2500
     }
 }
