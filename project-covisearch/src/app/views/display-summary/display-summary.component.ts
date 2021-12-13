@@ -88,7 +88,8 @@ export class DisplaySummaryComponent implements AfterViewInit {
       'country',
       this.data
     );
-    this.chartCountry.filter((ele) =>
+    
+    this.chartCountry = this.chartCountry.filter((ele) =>
       ['India', 'USA', 'Mexico'].includes(ele.name)
     );
     // ----------------------------------------------------------
