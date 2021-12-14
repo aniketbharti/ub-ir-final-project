@@ -1,4 +1,4 @@
-const baseUrl = "http://18.117.250.176:5000/api/"
+const baseUrl = "http://3.128.246.40:5000/api/"
 const wikipediaUrl = 'https://en.wikipedia.org/api/rest_v1/page/summary/'
 
 const url = {
